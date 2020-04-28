@@ -77,3 +77,39 @@ Inside the JSX, you can use curly braces { ... } to enclose basic, single-line J
 
 #### Working with Props
 
+Following on from the Person component we had earlier, it would be handy to be able to define your own content for each 'Person' component you use. This is shown below:
+
+First, we pass in the data that we want to use as attributes:
+```js
+// App.js
+<Person name="Yusuf" age="20">
+```
+
+In our component, we first pass in the **props** object to access the data we want to use, and then access the **properties** we defined outside of the component, as shown below:
+
+```js
+// Person.js
+const person = (props) => {
+    return <p>I'm a {props.name} and I am {props.age} years old!</p>
+};
+```
+
+Note: This is a functional based component - in a class based component, we would use '**this.props**' to access the props object.
+
+#### Understanding the children prop
+
+Aside from passing data as attributes, we can also pass things in between the component tags: 
+
+```js
+// App.js
+<Person name="Yusuf" age="20">Yusuf's test content, output from props.children</Person>
+```
+
+To access the text I've entered between the tags, we can use **props.children** inside our component: 
+
+```js
+<p>{props.children}</p>
+```
+
+#### Understanding & Using State
+
