@@ -4,7 +4,7 @@
 
 ### Limitations of JSX
 
-A restriction on  JSX is the use of different attribute names to real HTML. For example, we can't use 'class' but we must use 'className'. This is because class is a reserved keyword in JavaScript, so cannot be used. This brings up the important point that: **this is JSX, not HTML.** For this reason, although they look very similar, there are still some differences.
+A restriction on JSX is the use of different attribute names to real HTML. For example, we can't use 'class' but we must use 'className'. This is because class is a reserved keyword in JavaScript, so cannot be used. This brings up the important point that: **this is JSX, not HTML.** For this reason, although they look very similar, there are still some differences.
 
 Also, everything must be wrapped in **one div** when rendering a component. This could also be seen as a limitation, but is standard practice when writing React code.
 
@@ -12,7 +12,7 @@ Also, everything must be wrapped in **one div** when rendering a component. This
 
 #### Introduction to Components
 
-A component is a function which returns some JSX, that's it. React apps are based on the combination of some components which combine together to form some site. React apps can be described as a **component tree**, where there is one *root* component, like App, and then any number of other components nested inside this root component (child components).
+A component is a function which returns some JSX, that's it. React apps are based on the combination of some components which combine together to form some site. React apps can be described as a **component tree**, where there is one _root_ component, like App, and then any number of other components nested inside this root component (child components).
 
 As mentioned earlier, a component must return some JSX code - this is so that React knows what sort of real HTML to output to the DOM in the end.
 
@@ -21,18 +21,23 @@ As mentioned earlier, a component must return some JSX code - this is so that Re
 Below are examples of two ways to create a component, with the first way being the best way to do this.
 
 1. Functional Components (**best practice**)
-AKA: Presentational, Dumb, or Stateless components
+   AKA: Presentational, Dumb, or Stateless components
+
 ```js
-const cmp = () => { return <div>some JSX</div> };
+const cmp = () => {
+  return <div>some JSX</div>;
+};
 ```
-2. Class-based Components 
-AKA: Containers, Smart, or Stateful components
+
+2. Class-based Components
+   AKA: Containers, Smart, or Stateful components
+
 ```js
 class Cmp extends Component {
-    render() {
-        return <div>some JSX</div>
-        }
-    }
+  render() {
+    return <div>some JSX</div>;
+  }
+}
 ```
 
 #### How to create a component
@@ -42,29 +47,33 @@ Create a new folder with the name of the component, starting with a capital lett
 Create a .js file with the same name as the folder
 
 Import React at the top of the file:
+
 ```js
-import React from 'react';
+import React from "react";
 ```
 
 Write the function which will be returning the desired JSX. Below is a bare-bones, basic example.
+
 ```js
 const person = () => {
-    return <p>I'm a Person!</p>
-}
-
+  return <p>I'm a Person!</p>;
+};
 ```
 
 End the file with an export, so that the component may be used in your main React app
+
 ```js
 export default person;
 ```
 
 In your main app file, import the new component:
+
 ```js
-import Person from './Person/Person';
+import Person from "./Person/Person";
 ```
 
 Now, you can add the component into your main rendered content using a self-closing tag, with its name written inside the tag:
+
 ```js
 ... // more code
 <Person />
@@ -80,6 +89,7 @@ Inside the JSX, you can use curly braces { ... } to enclose basic, single-line J
 Following on from the Person component we had earlier, it would be handy to be able to define your own content for each 'Person' component you use. This is shown below:
 
 First, we pass in the data that we want to use as attributes:
+
 ```js
 // App.js
 <Person name="Yusuf" age="20">
@@ -90,7 +100,11 @@ In our component, we first pass in the **props** object to access the data we wa
 ```js
 // Person.js
 const person = (props) => {
-    return <p>I'm a {props.name} and I am {props.age} years old!</p>
+  return (
+    <p>
+      I'm a {props.name} and I am {props.age} years old!
+    </p>
+  );
 };
 ```
 
@@ -98,18 +112,63 @@ Note: This is a functional based component - in a class based component, we woul
 
 #### Understanding the children prop
 
-Aside from passing data as attributes, we can also pass things in between the component tags: 
+Aside from passing data as attributes, we can also pass things in between the component tags:
 
 ```js
 // App.js
-<Person name="Yusuf" age="20">Yusuf's test content, output from props.children</Person>
+<Person name="Yusuf" age="20">
+  Yusuf's test content, output from props.children
+</Person>
 ```
 
-To access the text I've entered between the tags, we can use **props.children** inside our component: 
+To access the text I've entered between the tags, we can use **props.children** inside our component:
 
 ```js
 <p>{props.children}</p>
 ```
 
-#### Understanding & Using State
+#### Props and State: Summary (outlined in course notes)
 
+Props (Properties): An object which is an **input** to a component, containing information that should be used when creating a component.
+
+With props, you are passing data from the **parent component** to the **child component**.
+
+**Props Example**
+
+Here, we access the custom property, title, from the props object. This will have been defined elsewhere, when declaring the usage of the component, as shown below:
+
+```js
+// Post component
+const post = (props) => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+    </div>
+  );
+};
+
+// Other component (where we use Post)
+<Post title="My first Post" />;
+```
+
+State: This is similar to a prop, except that data is being defined and changed from **within** the component. An important thing to note is that state can only be accessed via **class based components**.
+
+'state' is a property of the **component class** which is accessed by typing _this.state_.
+
+When there is a change to the state, the component will **re-render** to display the new change.
+
+**State Example**
+
+```js
+class NewPost extends Component {
+  // state can only be accessed in class-based components!
+  state = {
+    counter: 1,
+  };
+
+  render() {
+    // Needs to be implemented in class-based components! Needs to return some JSX!
+    return <div>{this.state.counter}</div>;
+  }
+}
+```
