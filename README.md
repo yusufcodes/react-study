@@ -129,7 +129,7 @@ To access the text I've entered between the tags, we can use **props.children** 
 
 #### Props and State: Summary (outlined in course notes)
 
-Props (Properties): An object which is an **input** to a component, containing information that should be used when creating a component.
+**Props** (Properties): An object which is an **input** to a component, containing information that should be used when creating a component.
 
 With props, you are passing data from the **parent component** to the **child component**.
 
@@ -151,7 +151,7 @@ const post = (props) => {
 <Post title="My first Post" />;
 ```
 
-State: This is similar to a prop, except that data is being defined and changed from **within** the component. An important thing to note is that state can only be accessed via **class based components**.
+**State**: This is similar to a prop, except that data is being defined and changed from **within** the component. An important thing to note is that state can only be accessed via **class based components**.
 
 'state' is a property of the **component class** which is accessed by typing _this.state_.
 
@@ -172,3 +172,54 @@ class NewPost extends Component {
   }
 }
 ```
+
+#### Handling Events with Methods
+
+This example will demonstrate how to add event handling with the click of a button.
+
+To register some form of event to happen when clicking a button, we must use the **onClick** attribute, a special JSX attribute. Notice how it is written in camel case as it is JSX, whereas in traditional HTML/CSS/JS, we would use onclick.
+
+```js
+<button onClick={}>Switch Name</button>
+```
+
+You then want to go off and define some other function to be executed. We should do this using the ES6 Arrow Functions, to ensure that the _this_ keyword is locally scoped (to the current context).
+
+```js
+switchNameHandler = () => {
+  console.log("Clicked!");
+};
+```
+
+Lastly, we want to refer to the function we want to call within the curly braces as shown below:
+
+```js
+<button onClick={this.switchNameHandler}>Switch Name</button>
+```
+
+#### Manipulating the State
+
+Linked to the previous section, this section will show you how to dynamically change the data displayed to the user through manipulating the state. This is done by a onClick event.
+
+**setState:** A method which takes in an object, which contains any updated data to be added to the state object. It will _merge_ anything defined here with what already exists in the state, meaning nothing is lost. React will then **re-render** the area of the DOM which has been changed to reflect this.
+
+```js
+this.setState({
+  people: [
+    { name: "Yusuf Ahmed", age: 20 },
+    { name: "Manu", age: 29 },
+    { name: "Steph", age: 27 },
+  ],
+});
+```
+
+#### Using the useState() Hook for State Manipulation
+
+_Note:_ Since React 16.8, you can use **functional components** to manage state. This wasn't a thing before, and is possible because of **React Hooks.** Course note - instructor briefly demonstrates this here, but for the rest of the course will use the traditional Class Components to approach state management. (Separate units on React Hooks are in this course).
+
+We started by converting the Class Based 'App' component to be Function Based, and then imported the **useState** hook.
+
+**Difference between setState (class based component), and new function returned from hook to set the stage (function based component):**
+setState will merge any existing state data with what we pass in, whereas the new function returned by the useState hook **will over-write** any data in our state.
+
+To over-come this, you can use **multiple useState()** calls to manage different pieces of data. That way, setting the state of one piece of data will not effect other bits of data which may not have been updated.
