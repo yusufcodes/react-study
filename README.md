@@ -223,3 +223,77 @@ We started by converting the Class Based 'App' component to be Function Based, a
 setState will merge any existing state data with what we pass in, whereas the new function returned by the useState hook **will over-write** any data in our state.
 
 To over-come this, you can use **multiple useState()** calls to manage different pieces of data. That way, setting the state of one piece of data will not effect other bits of data which may not have been updated.
+
+#### Stateful and Stateless Components
+
+**Stateful Components (AKA: Containers, Smart)**: A component which manages come form of state. For example, currently my **App** main component handles some kind of state.
+
+**Stateless Components (AKA: Presentational, Dumb):**: A component which has **no state** attached to it. For example, my **Person** component.
+
+It is better to create more stateless components, which are there for presentational purposes, as it makes the app easier to manage. It means it is easy to locate where data is dynamically changing, in a certain place.
+
+#### Passing Method References between Components
+
+We can use custom properties to pass functions from our **parent** component to other components. Below shows how we would pass in a pre-written function, **switchNameHandler**, to the **Person** component. This can then be accessed inside of the component via the Prop object, to be used in any way, such as in an event.
+
+```js
+<Person
+    name={this.state.persons[1].name}
+    age={this.state.persons[1].age}
+    click={this.switchNameHandler}
+>
+```
+
+However, often we want to pass in some **parameters** containing data to be used. For this, we must manipulate the scope of the _this_ keyword, and use the **bind** method:
+
+**TODO:** Read up on this a bit more to enhance understanding of it.
+
+```js
+<Person
+    name={this.state.persons[1].name}
+    age={this.state.persons[1].age}
+    click={this.switchNameHandler.bind(this, 'New Name!!!')}
+>
+```
+
+#### Adding Two Way Binding
+
+This section will outline how to take input from the page and update the state of a component.
+
+This example will demonstrate this using the Person component in conjunction with the main App component.
+
+In the Person component, we want to allow for some input. After adding a basic input element, we want an event to happen when we alter this input field: **onChange** can be used for this. Next, we want to tell React which function should be executed when onChange is triggered, in this case it is this 'changed' function we pass into the component.
+
+```js
+// Person component
+<input type="text" onChange={props.changed} />
+```
+
+To access the method through the props object, we must add it as a custom property as usual:
+
+```js
+// Person component with 'changed' method
+<Person
+    name={this.state.persons[1].name}
+    age={this.state.persons[1].age}
+    click={this.switchNameHandler.bind(this, 'New Name!!!')}
+    changed={this.nameChangedHandler}
+>
+```
+
+We finish this off by calling the usual setState method, however as we are handling an event, we are given the **event** object to play with, like any JS event handling. We can then get the current element via **event.target**, then get the value typed in by **event.target.value**.
+
+```js
+// New method to be called
+nameChangedHandler = (event) => {
+  this.setState({
+    persons: [
+      { name: "Max", age: 28 },
+      { name: event.target.value, age: 29 },
+      { name: "Stephanie", age: 27 },
+    ],
+  });
+};
+```
+
+**Result:** When any text is entered into this input field, React will re-render the DOM to reflect the newly entered text. This will happen each time a change is made, such as an additional character, or a removal of one.
