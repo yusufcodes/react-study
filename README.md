@@ -297,3 +297,9 @@ nameChangedHandler = (event) => {
 ```
 
 **Result:** When any text is entered into this input field, React will re-render the DOM to reflect the newly entered text. This will happen each time a change is made, such as an additional character, or a removal of one.
+
+#### Adding Styling with Stylesheets
+
+For a given component, you must create the .css file you want and import it at the top of the file. This will allow for any styles to be used.
+
+It can also be done **inline**, by setting your styles within an **object** using JavaScript access to CSS properties, and then using the style attribute on a given component to link to the styles.
