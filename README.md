@@ -1,23 +1,21 @@
 # react-study
 
-#### Introduction
+### Introduction
 
 This repo will contain the code and notes (below) for the Udemy course: [React - The Complete Guide](https://www.udemy.com/course/react-the-complete-guide-incl-redux).
-**Course Started: ** 27/04/20
+
+**Course Started:** 27/04/20
 
 ## Section 3: Understanding the Base Features & Syntax
 
 ### The Build Workflow
 
-React works with multiple different things to work. This section shows what is needed to work with React.
+React needs multiple different things to work. This section shows what is needed to work with React.
 
-Dependency Management: e.g. **npm** or yarn, to install third party packages. Examples are 'React', 'React DOM', and all the other build tools we may need.
-
-Bundler: e.g. **Webpack**, this will condense lots of files into a smaller amount, as it isn't optimal to send potentially many files to a server when deploying our site.
-
-Compiler: e.g. **Babel**, this will compile our next-generation ES6 code into older, compatible code that can help our application run on as many browsers as possible. This is hooked into Webpack, and is applied to our code before it is bundled.
-
-Development Server: Run a local server to test React app.
+- Dependency Management: e.g. **npm** or yarn, to install third party packages. Examples are 'React', 'React DOM', and all the other build tools we may need.
+- Bundler: e.g. **Webpack**, this will condense lots of files into a smaller amount, as it isn't optimal to send potentially many files to a server when deploying our site.
+- Compiler: e.g. **Babel**, this will compile our next-generation ES6 code into older, compatible code that can help our application run on as many browsers as possible. This is hooked into Webpack, and is applied to our code before it is bundled.
+- Development Server: Run a local server to test React app.
 
 All of the above can be setup using one tool called **Create React App**, which is introduced in the next section.
 
@@ -66,7 +64,7 @@ return React.createElement(
 
 ### Limitations of JSX
 
-A restriction on JSX is the use of different attribute names to real HTML. For example, we can't use 'class' but we must use 'className'. This is because class is a reserved keyword in JavaScript, so cannot be used. This brings up the important point that: **this is JSX, not HTML.** For this reason, although they look very similar, there are still some differences.
+A restriction on JSX is the use of different attribute names to real HTML. For example, we can't use 'class' but we must use '**className**'. This is because class is a reserved keyword in JavaScript, so cannot be used. This brings up the important point that: **this is JSX, not HTML.** For this reason, although they look very similar, there are still some differences.
 
 Also, everything must be wrapped in **one div** when rendering a component. This could also be seen as a limitation, but is standard practice when writing React code.
 
@@ -74,7 +72,7 @@ Also, everything must be wrapped in **one div** when rendering a component. This
 
 #### Introduction to Components
 
-A component is a function which returns some JSX, that's it. React apps are based on the combination of some components which combine together to form some site. React apps can be described as a **component tree**, where there is one _root_ component, like App, and then any number of other components nested inside this root component (child components).
+A component is **a function which returns some JSX**, that's it. React apps are based on the combination of some components which combine together to form some site. React apps can be described as a **component tree**, where there is one _root_ component, like **App**, and then any number of other components nested inside this root component (**child components**).
 
 As mentioned earlier, a component must return some JSX code - this is so that React knows what sort of real HTML to output to the DOM in the end.
 
@@ -82,7 +80,7 @@ As mentioned earlier, a component must return some JSX code - this is so that Re
 
 Below are examples of two ways to create a component, with the first way being the best way to do this.
 
-1. Functional Components (**best practice**)
+1. **Functional Components** (_best practice_)
    AKA: Presentational, Dumb, or Stateless components
 
 ```js
@@ -91,7 +89,7 @@ const cmp = () => {
 };
 ```
 
-2. Class-based Components
+2. **Class-based Components**
    AKA: Containers, Smart, or Stateful components
 
 ```js
@@ -104,17 +102,15 @@ class Cmp extends Component {
 
 #### How to create a component
 
-Create a new folder with the name of the component, starting with a capital letter
-
-Create a .js file with the same name as the folder
-
-Import React at the top of the file:
+1. Create a new folder with the name of the component, starting with a capital letter
+2. Inside the new folder, create a .js file with the same name as the folder
+3. Import React at the top of the file:
 
 ```js
 import React from "react";
 ```
 
-Write the function which will be returning the desired JSX. Below is a bare-bones, basic example.
+4. Write the function which will be returning the desired JSX. Below is a bare-bones, basic example using a **functional component**.
 
 ```js
 const person = () => {
@@ -122,19 +118,19 @@ const person = () => {
 };
 ```
 
-End the file with an export, so that the component may be used in your main React app
+5. End the file with an export, so that the component may be used in your main React app
 
 ```js
 export default person;
 ```
 
-In your main app file, import the new component:
+6. In your main app file, import the new component:
 
 ```js
 import Person from "./Person/Person";
 ```
 
-Now, you can add the component into your main rendered content using a self-closing tag, with its name written inside the tag:
+7. Now, you can add the component into your main rendered content using a self-closing tag, with its name written inside the tag:
 
 ```js
 ... // more code
@@ -144,11 +140,11 @@ Now, you can add the component into your main rendered content using a self-clos
 
 #### Outputing Dynamic Content
 
-Inside the JSX, you can use curly braces { ... } to enclose basic, single-line JavaScript thsat you want to run, to create dynamic content.
+Inside the JSX, you can use **curly braces { ... }** to enclose basic, single-line JavaScript thsat you want to run, to create dynamic content.
 
 #### Working with Props
 
-Following on from the Person component we had earlier, it would be handy to be able to define your own content for each 'Person' component you use. This is shown below:
+Following on from the Person component we had earlier, it would be handy to be able to define your **own content** for each 'Person' component you use. Props allow for you to pass data into a component externally - this is shown below:
 
 First, we pass in the data that we want to use as attributes:
 
@@ -170,7 +166,7 @@ const person = (props) => {
 };
 ```
 
-Note: This is a functional based component - in a class based component, we would use '**this.props**' to access the props object.
+_Note_: This is a functional based component - in a class based component, we would use '**this.props**' to access the props object.
 
 #### Understanding the children prop
 
@@ -235,7 +231,7 @@ class NewPost extends Component {
 }
 ```
 
-#### Handling Events with Methods
+### Handling Events with Methods
 
 This example will demonstrate how to add event handling with the click of a button.
 
@@ -259,11 +255,11 @@ Lastly, we want to refer to the function we want to call within the curly braces
 <button onClick={this.switchNameHandler}>Switch Name</button>
 ```
 
-#### Manipulating the State
+### Manipulating the State
 
-Linked to the previous section, this section will show you how to dynamically change the data displayed to the user through manipulating the state. This is done by a onClick event.
+Linked to the previous section, this section will show you how to dynamically change the data displayed to the user through manipulating the state. This is done by **an onClick event**.
 
-**setState:** A method which takes in an object, which contains any updated data to be added to the state object. It will _merge_ anything defined here with what already exists in the state, meaning nothing is lost. React will then **re-render** the area of the DOM which has been changed to reflect this.
+**setState:** A method which takes in an object, which contains any **updated data** to be added to the state object. It will _merge_ anything defined here with what already exists in the state, meaning nothing is lost. React will then **re-render** the area of the DOM which has been changed to reflect this.
 
 ```js
 this.setState({
@@ -275,7 +271,7 @@ this.setState({
 });
 ```
 
-#### Using the useState() Hook for State Manipulation
+### Using the useState() Hook for State Manipulation
 
 _Note:_ Since React 16.8, you can use **functional components** to manage state. This wasn't a thing before, and is possible because of **React Hooks.** Course note - instructor briefly demonstrates this here, but for the rest of the course will use the traditional Class Components to approach state management. (Separate units on React Hooks are in this course).
 
@@ -286,7 +282,7 @@ setState will merge any existing state data with what we pass in, whereas the ne
 
 To over-come this, you can use **multiple useState()** calls to manage different pieces of data. That way, setting the state of one piece of data will not effect other bits of data which may not have been updated.
 
-#### Stateful and Stateless Components
+### Stateful and Stateless Components
 
 **Stateful Components (AKA: Containers, Smart)**: A component which manages come form of state. For example, currently my **App** main component handles some kind of state.
 
@@ -294,7 +290,7 @@ To over-come this, you can use **multiple useState()** calls to manage different
 
 It is better to create more stateless components, which are there for presentational purposes, as it makes the app easier to manage. It means it is easy to locate where data is dynamically changing, in a certain place.
 
-#### Passing Method References between Components
+### Passing Method References between Components
 
 We can use custom properties to pass functions from our **parent** component to other components. Below shows how we would pass in a pre-written function, **switchNameHandler**, to the **Person** component. This can then be accessed inside of the component via the Prop object, to be used in any way, such as in an event.
 
@@ -318,7 +314,7 @@ However, often we want to pass in some **parameters** containing data to be used
 >
 ```
 
-#### Adding Two Way Binding
+### Adding Two Way Binding
 
 This section will outline how to take input from the page and update the state of a component.
 
@@ -360,7 +356,7 @@ nameChangedHandler = (event) => {
 
 **Result:** When any text is entered into this input field, React will re-render the DOM to reflect the newly entered text. This will happen each time a change is made, such as an additional character, or a removal of one.
 
-#### Adding Styling with Stylesheets
+### Adding Styling with Stylesheets
 
 For a given component, you must create the .css file you want and import it at the top of the file. This will allow for any styles to be used.
 
