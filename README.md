@@ -361,3 +361,11 @@ nameChangedHandler = (event) => {
 For a given component, you must create the .css file you want and import it at the top of the file. This will allow for any styles to be used.
 
 It can also be done **inline**, by setting your styles within an **object** using JavaScript access to CSS properties, and then using the style attribute on a given component to link to the styles.
+
+### Section 3: Useful Resources and Links
+
+- [create-react-app](https://github.com/facebookincubator/create-react-app)
+- [Introducing JSX](https://reactjs.org/docs/introducing-jsx.html)
+- [Rendering Elements](https://reactjs.org/docs/rendering-elements.html)
+- [Components & Props](https://reactjs.org/docs/components-and-props.html)
+- [Listenable Events](https://reactjs.org/docs/events.html)
