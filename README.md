@@ -1,6 +1,68 @@
 # react-study
 
+#### Introduction
+
+This repo will contain the code and notes (below) for the Udemy course: [React - The Complete Guide](https://www.udemy.com/course/react-the-complete-guide-incl-redux).
+**Course Started: ** 27/04/20
+
 ## Section 3: Understanding the Base Features & Syntax
+
+### The Build Workflow
+
+React works with multiple different things to work. This section shows what is needed to work with React.
+
+Dependency Management: e.g. **npm** or yarn, to install third party packages. Examples are 'React', 'React DOM', and all the other build tools we may need.
+
+Bundler: e.g. **Webpack**, this will condense lots of files into a smaller amount, as it isn't optimal to send potentially many files to a server when deploying our site.
+
+Compiler: e.g. **Babel**, this will compile our next-generation ES6 code into older, compatible code that can help our application run on as many browsers as possible. This is hooked into Webpack, and is applied to our code before it is bundled.
+
+Development Server: Run a local server to test React app.
+
+All of the above can be setup using one tool called **Create React App**, which is introduced in the next section.
+
+### Create React App
+
+This is the first thing we'd need to do when creating a new app, and all instructions are on the GitHub: [create-react-app](https://github.com/facebook/create-react-app)
+
+### Understanding Component Basics
+
+#### A Basic Component
+
+```js
+import React, { Component } from "react";
+import "./App.css";
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+- **React** needs to be imported from the _react_ library to allow for any component to be rendered to the DOM
+- **Component** needs to be imported from the _react_ library so we can inherit our class from it, to use all features of a react component
+- React will call the **render** method to output anything to the screen, and within this method, it must **return some JSX to display to the screen.**
+- This class is exported at the bottom of the file, and the default keyword is used so that, if we import this file as default, this class will instantly be given.
+- The 'HTML' looking code inside of the render method is actually just **JSX**, some syntactical sugar to allow for us to write 'HTML' which, when compiled, is just some JavaScript code.
+
+### Understanding JSX
+
+Below is what the JSX we write is going to get compiled down to by Babel. It uses the React class with the createElement method from it to build our apps. However, writing everything like this can become a lot of work, which is why JSX is used instead. This can help understand exactly what is going on behind the scenes.
+
+```js
+return React.createElement(
+  "div",
+  { className: "App" },
+  React.createElement("h1", null, "My H1 text")
+);
+```
 
 ### Limitations of JSX
 
