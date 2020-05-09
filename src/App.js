@@ -7,34 +7,35 @@ import UserOutput from './UserOutput/UserOutput';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 29 },
-      { name: 'Stephanie', age: 26 }
+      { id: 'djue3', name: 'Max', age: 28 },
+      { id: 'cije3',name: 'Manu', age: 29 },
+      { id: 'hfcd5', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    usernames: ['Yusufff', 'Bob']
+    usernames: ['Yusufff', 'Bob'],
+    showPeople: false
   };
 
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ],
-    });
-  };
+  nameChangedHandler = (event, id) => {
+    // Get a copy of the persons state
+    const persons = [...this.state.persons];
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    });
+    // Get the ID of the current person
+    const personIndex = persons.findIndex(p => p.id === id);
+
+    // * Get the person out of the state using the ID - immutably
+    const person = {
+      ...persons[personIndex]
+    };
+
+    // Change the value of the name of the current person
+    person.name = event.target.value;
+
+    // Update the persons array
+    persons[personIndex] = person;
+
+    // Update the persons state
+    this.setState({persons: persons});
   }
 
   usernameChangedHandler = (event) => {
@@ -43,34 +44,52 @@ class App extends Component {
     });
   }
 
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+
+  displayPeopleChangedHandler = () => {
+    const doesShow = this.state.showPeople;
+    this.setState({showPeople: !doesShow});
+  };
+
   render() {
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <button onClick={this.switchNameHandler.bind(this, 'New Name!')}>Switch Name</button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'New Name!!!')}
-          changed={this.nameChangedHandler}
-        >
-          My Hobbies: Racing
-        </Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-        />
-        <UserOutput username={this.state.usernames[0]}/>
-        <UserOutput username={this.state.usernames[1]}/>
+    let people = null;
+
+    if (this.state.showPeople) {
+      people = (
+        <div>
+          {/* Dynamic generation of content from state, by mapping 
+          JS Object => JSX component */}
+          {this.state.persons.map((person, index) => {
+            return <Person
+            click={() => this.deletePersonHandler(index)}
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            changed={(event) => this.nameChangedHandler(event, person.id)}/>
+          })}
+
+          {this.state.usernames.map(username => {
+            return <UserOutput username={username}/>
+          })}
+
         <UserInput 
         userChange={this.usernameChangedHandler}
         username={this.state.usernames[0]}
         />
+        </div>
+      );
+    }
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button onClick={this.displayPeopleChangedHandler}>Show / Hide Names</button>
+        {people}
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));

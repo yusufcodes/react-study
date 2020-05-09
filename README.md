@@ -369,3 +369,68 @@ It can also be done **inline**, by setting your styles within an **object** usin
 - [Rendering Elements](https://reactjs.org/docs/rendering-elements.html)
 - [Components & Props](https://reactjs.org/docs/components-and-props.html)
 - [Listenable Events](https://reactjs.org/docs/events.html)
+
+## Section 4: Rendering Lists & Conditional Content
+
+### Rendering Content Conditionally
+
+To do any conditional work in JSX, you can wrap your JSX in {...} and within this, do simple statements. We can use the ternary operator in JavaScript to conditionally ouput data using this.
+
+For this example, I used a state variable which is toggled by a button, of which the value is read in JSX to determine whether or not to show a set of names. **Better alternative way is shown in the next section**
+
+### Handling Dynamic Content "The JavaScript Way"
+
+One thing to always remember is, whenever React needs to render, or re-render, anything to the screen, the **entire render() method** is executed. We can use this to our advantage here.
+
+Before the **return** statement in the render method, we can add any regular JS we need. In my example, I did the conditional work here, rather than inside the JSX. I then refer to the variable holding my JSX inside the return statement.
+
+### Outputting Lists
+
+We can use the **map** method to map the JS objects in our state into components.
+**JavaScript Object -> Component:**
+
+```js
+{
+  this.state.persons.map((person) => {
+    return <Person name={person.name} age={person.age} />;
+  });
+}
+```
+
+### Lists and State
+
+We can edit the display of a list using state. First, we want to have some way of deleting an item through an event such as a **click**, so we can get that setup inside the component we want.
+
+After that we can use the index we have and call the **splice** method to remove the element from the state, and use **setState** to update the state accordingly.
+
+```js
+<Person
+click={() => this.deletePersonHandler(index)}
+/>
+
+ deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+```
+
+### Updating State Immutably
+
+The approach above to access the state is not the best practice, because we are getting a reference to the original state **object** and then manipulating from this. Instead, we should get a **copy** of the state so we are not potentially overriding any original data before we update it - in an **immutable** way. This can be achieved using the **spread** operator. This operator will simply copy the contents of the object that we want to use the data from:
+
+```js
+deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+```
+
+### Lists & Keys
+
+This section refers to the usage of the 'map' function to create component list items. For each of these list items (JSX component) we need a way to uniquely identify it.
+
+As React works by updating only the part of the DOM that needs re-rendering, with a list, it needs to know **exactly which** item has been updated to achieve this. Otherwise, it will end up re-rendering the entire list. For this, we pass in a **key** prop to our component, which should be some unique ID we generate.
+
+**Flexible Lists Example:** See the *nameChangedHandler* in App.js to see flexibly updating a list in action.
