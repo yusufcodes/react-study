@@ -404,15 +404,13 @@ We can edit the display of a list using state. First, we want to have some way o
 After that we can use the index we have and call the **splice** method to remove the element from the state, and use **setState** to update the state accordingly.
 
 ```js
-<Person
-click={() => this.deletePersonHandler(index)}
-/>
+<Person click={() => this.deletePersonHandler(index)} />;
 
- deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons});
-  }
+deletePersonHandler = (personIndex) => {
+  const persons = this.state.persons;
+  persons.splice(personIndex, 1);
+  this.setState({ persons: persons });
+};
 ```
 
 ### Updating State Immutably
@@ -421,10 +419,10 @@ The approach above to access the state is not the best practice, because we are 
 
 ```js
 deletePersonHandler = (personIndex) => {
-    const persons = [...this.state.persons];
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons});
-  }
+  const persons = [...this.state.persons];
+  persons.splice(personIndex, 1);
+  this.setState({ persons: persons });
+};
 ```
 
 ### Lists & Keys
@@ -433,4 +431,9 @@ This section refers to the usage of the 'map' function to create component list 
 
 As React works by updating only the part of the DOM that needs re-rendering, with a list, it needs to know **exactly which** item has been updated to achieve this. Otherwise, it will end up re-rendering the entire list. For this, we pass in a **key** prop to our component, which should be some unique ID we generate.
 
-**Flexible Lists Example:** See the *nameChangedHandler* in App.js to see flexibly updating a list in action.
+**Flexible Lists Example:** See the _nameChangedHandler_ in App.js to see flexibly updating a list in action.
+
+### Useful Resources and Links
+
+[Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
+[Lists & Keys](https://reactjs.org/docs/lists-and-keys.html)
