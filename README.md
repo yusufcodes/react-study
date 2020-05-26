@@ -511,6 +511,11 @@ The **alt** prop passed into the component is used to determine whether this but
 
 ### Working with CSS Modules
 
+So far, all the CSS that has been written has been inside our JavaScript files. Here we introduce the method of using CSS Modules to eliminate this from happening, keeping the JS and CSS separate.
+
+Get access to the config files created with create-react-app:
+npm run eject
+
 ### CSS Modules & Media Queries
 
 ### More on CSS Modules
