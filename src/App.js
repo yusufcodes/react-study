@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
@@ -12,7 +12,7 @@ class App extends Component {
       { id: 'hfcd5', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    usernames: ['Yusufff', 'Bob'],
+    usernames: ['Yusuf', 'Bob'],
     showPeople: false
   };
 
@@ -57,6 +57,8 @@ class App extends Component {
 
   render() {
     let people = null;
+    let btnClass = [classes.Button];
+    console.log(btnClass);
 
     if (this.state.showPeople) {
       people = (
@@ -84,29 +86,26 @@ class App extends Component {
       );
 
       // style.backgroundColor = 'red';
-      // style[':hover']  = {
-      //   backgroundColor: 'salmon',
-      //   color: 'black'
-      // }
+      btnClass.push(classes.Red);
     }
 
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) 
     {
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1) 
     {
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
-        <StyledButton alt={this.state.showPeople} onClick={this.displayPeopleChangedHandler}>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
+        <button className={btnClass.join(' ')} onClick={this.displayPeopleChangedHandler}>
         Show / Hide Names
-        </StyledButton>
+        </button>
         {people}
       </div>
     );

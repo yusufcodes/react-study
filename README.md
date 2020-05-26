@@ -513,11 +513,37 @@ The **alt** prop passed into the component is used to determine whether this but
 
 So far, all the CSS that has been written has been inside our JavaScript files. Here we introduce the method of using CSS Modules to eliminate this from happening, keeping the JS and CSS separate.
 
-Get access to the config files created with create-react-app:
-npm run eject
+#### Getting CSS Modules to work
+
+1. Get access to the config files created with create-react-app:
+
+   > npm run eject
+
+2. Add the following congifuration to the **webpack.config.dev** and **webpack.config.prod** files below test: /\.css\$/ inside of options:
+
+> modules: true,
+> localIndentName: '[name]**[local]**[hash:base64:5]'
+
+What this does is allows for the usage of **modules**, and for each CSS class that we import, it will have a **unique class name** made using the defined naming convention in localIndentName.
+
+3. Import CSS as a module:
+   > import './App.css'; (old)
+   > import classes from './App.css'; (new)
+
+Each class in the CSS file now is a **unique class** which is specifically mapped to a particular element in our app. It is accessed through this type of syntax, where App is a property on the imported classes object, with a unique identifier:
+
+```js
+<div className={classes.App}>
+```
+
+The actual class name for this will be a unique ID which is generated using the configuration we set up earlier. This ensures that each style is scoped to a particular element.
 
 ### CSS Modules & Media Queries
 
-### More on CSS Modules
+Media Queries can be applied in your .css file as normal now and it should work as normal.
 
-### Useful Resources & Links
+### More on CSS Modules / Useful Resources & Links
+
+[Using CSS Modules in create-react-app Projects](https://medium.com/nulogy/how-to-use-css-modules-with-create-react-app-9e44bec2b5c2)
+
+[More information about CSS Modules](https://github.com/css-modules/css-modules)
