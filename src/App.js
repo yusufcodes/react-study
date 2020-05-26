@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
 
 class App extends Component {
   state = {
@@ -11,8 +9,6 @@ class App extends Component {
       { id: 'cije3',name: 'Manu', age: 29 },
       { id: 'hfcd5', name: 'Stephanie', age: 26 }
     ],
-    otherState: 'some other value',
-    usernames: ['Yusuf', 'Bob'],
     showPeople: false
   };
 
@@ -73,15 +69,6 @@ class App extends Component {
             age={person.age}
             changed={(event) => this.nameChangedHandler(event, person.id)}/>
           })}
-
-          {this.state.usernames.map(username => {
-            return <UserOutput username={username}/>
-          })}
-
-        <UserInput 
-        userChange={this.usernameChangedHandler}
-        username={this.state.usernames[0]}
-        />
         </div>
       );
 
