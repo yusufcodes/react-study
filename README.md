@@ -437,3 +437,82 @@ As React works by updating only the part of the DOM that needs re-rendering, wit
 
 [Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
 [Lists & Keys](https://reactjs.org/docs/lists-and-keys.html)
+
+## Section 5: Styling React Components & Elements
+
+### Outlining the Problem Set
+
+- Cannot use pseudoselectors when using a JS object to create styles
+- .css files create global styles
+
+### Setting Styles Dynamically
+
+As a reminder, this is the current styling setup we have:
+
+- A JavaScript object containing properties and values of CSS styles
+- This is assigned using the 'style' attribute on the component we want
+
+To dynamically change the style, we can manipulate the JS object containing the styles we have based on some event, for example a click. Quick example below:
+
+```js
+style.backgroundColor = "red";
+```
+
+Doing this will change the background colour once a button is clicked, and once it is clicked again the default normal style is re-applied.
+
+### Setting Class Names Dynamically
+
+The approach taught to have dynamic classes:
+
+- Set up styles in .css file (global)
+- Create an array to hold the classes
+- Perform some JS dynamic logic to add / remove classes to the array
+- Convert the array to a string
+- Set the string to be the class of the component you want to style
+
+Array to String: use the **join** method, taking in a parameter to join each item with such as a space or comma.
+
+### Adding and Using Radium
+
+Radium is a third party package which allows you to overcome the problem of not being able to use pseudo-selectors and media queries. For now **will not add lengthy notes on this** as I want to learn Styled Components and see how this works!
+
+### Using Radium for Media Queries
+
+Same as above.
+**TO DO: Come back to this later after Styled Components?**
+
+### Introducing Styled Components
+
+styled-components is a library which can be used to write styles.
+The syntax makes use of String Literals, as shown below:
+
+```js
+// Creates a styled 'a' element - returns a React element
+const Button = styled.a`
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+`;
+```
+
+### More on Styled Components
+
+The components are built with randomly generated class names which can be seen in the DOM.
+
+### Styled Components & Dynamic Styles
+
+We can use a boolean, passed in as a prop to our styled component, to dynamically style our component. We use string literals to write some basic logic to determine a style below:
+
+```js
+background-color: ${props => props.alt ? 'red' : 'green'};
+```
+
+The **alt** prop passed into the component is used to determine whether this button should be red or green.
+
+### Working with CSS Modules
+
+### CSS Modules & Media Queries
+
+### More on CSS Modules
+
+### Useful Resources & Links
