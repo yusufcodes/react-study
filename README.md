@@ -586,11 +586,32 @@ In these first couple of lectures, we move a lot of logic / UI out of the main A
 
 ### Comparing Stateless and Stateful Components
 
+App is a stateful component where state is being managed.
+
+Other components such as Person, are referred to as Stateless or Presentational.
+
+We should have mostly dumb / presentational / stateless components to keep the app more manageable: so we are only manipulating state in a limited number of places.
+
 ### Class-based vs Functional Components
+
+![Class vs Functional Components](https://prnt.sc/so1yxl)
+[Credit: Maximilian Schwarzmüller](https://www.udemy.com/user/academind/)
 
 ### Class Component Lifecycle Overview
 
-### Component Creation Lifecycle in Action
+These are only available in class-based components. There are a number of methods that can be added to a class-based component, this is outlined below in a set of stages:
+_Note: This has nothing to do with React Hooks_
+
+**Component Lifecycle - Creation**
+
+- constructor(props) ➡️ initialisation such as setting up state
+  _Note:_ Must call **super(props)** so that the constructor of the _Component_ class is also executed.
+- getDerivedStateFromProps(props, state) ➡️ Synchronising state
+- render() ➡️ Get JSX code ready to be rendered
+- _Render Child Components from the render() method_
+- componentDidMount() ➡️ runs once other components render, here you can do common things such as http requests etc. however do **not** update the state here, as it will cause a re-render
+
+**TO DO: Read up on this further, all I see is that they run one after the other but not sure when to use / why - maybe this will become clear later on? **
 
 ### Component Update Lifecycle (for props Changes)
 

@@ -4,6 +4,13 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  // 1. Lifecycle #1
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
+  /* State can be set inside the constructor 'this.state = ...' however it is done implicitly with below code */
   state = {
     persons: [
       { id: 'djue3', name: 'Max', age: 28 },
@@ -12,6 +19,15 @@ class App extends Component {
     ],
     showPeople: false
   };
+
+  // 2. Lifecycle #2
+  static getDerivedStateFromProps(props, state) 
+  {
+    console.log(`[App.js] getDerivedStateFromProps, props: ${props}`)
+    return state;
+  }
+
+  componentDidMount = () => console.log('[App.js] componentDidMount');
 
   nameChangedHandler = (event, id) => {
     // Get a copy of the persons state
@@ -52,7 +68,9 @@ class App extends Component {
     this.setState({showPeople: !doesShow});
   };
 
+  // 3. Lifecycle #3
   render() {
+    console.log('[App.js] render');
     let people = null;
     
 
