@@ -547,3 +547,33 @@ Media Queries can be applied in your .css file as normal now and it should work 
 [Using CSS Modules in create-react-app Projects](https://medium.com/nulogy/how-to-use-css-modules-with-create-react-app-9e44bec2b5c2)
 
 [More information about CSS Modules](https://github.com/css-modules/css-modules)
+
+## Section 6: Debugging React Apps
+
+This module will help us learn from and understand errors in React.
+
+### Understanding Error Messages
+
+If you go to the top of sa large red error in the console, you can start looking at the error message. Followed by this, line numbers can help you identify where a particular error has occurred.
+
+### Finding Logical Errors by using Dev Tools & Sourcemaps
+
+Logical Errors are errors where there is no message but we have some unexpected behaviour in our program. We can use the dev tools to set a breakpoint where we want to inspect our code.
+
+### Working with the React Developer Tools
+
+The console has two new additional tabs 'Components' and 'Profiler'. Components contain all the info of each component on the page such as the state, event listeners etc.
+
+### Using Error Boundaries (React 16+)
+
+This section shows how to create some sort of error page generated to be helpful to the user.
+
+We will be using a **high-order component**. This is a component which **wraps** the original component we are displaying to do some of operations, in this case, it is handling an error. **Note:** Move any 'key' properties into this higher component as key should always be on the outer component.
+
+**TODO:** I got to the end of the lecture and the error boundary did not fully work however below is a link to official docs to try another time. I want to move on with the course but this looks handy for future reference - more of a **good to know**:
+
+[Error Handling in React 16+](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
+
+### Wrap Up
+
+### Useful Resources & Links
