@@ -574,6 +574,70 @@ We will be using a **high-order component**. This is a component which **wraps**
 
 [Error Handling in React 16+](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html)
 
-### Wrap Up
+### Wrap Up / Useful Links and Resources
 
-### Useful Resources & Links
+[Chrome Dev Tools](https://developers.google.com/web/tools/chrome-devtools/javascript/)
+
+## Section 7: Diving Deeper into Components & React Internals
+
+### A Better Project Structure & Splitting an App Into Components
+
+In these first couple of lectures, we move a lot of logic / UI out of the main App.js into their own components. App.js is now only responsible for handling and manipulating the state. Through moving other UI / areas of the app we now have a better project structure.
+
+### Comparing Stateless and Stateful Components
+
+### Class-based vs Functional Components
+
+### Class Component Lifecycle Overview
+
+### Component Creation Lifecycle in Action
+
+### Component Update Lifecycle (for props Changes)
+
+### Component Update Lifecycle (for state Changes)
+
+### Using useEffect() in Functional Components
+
+### Controlling the useEffect() Behavior
+
+### Cleaning up with Lifecycle Hooks & useEffect()
+
+### Cleanup Work with useEffect() - Example
+
+### Using shouldComponentUpdate for Optimization
+
+### Optimizing Functional Components with React.memo()
+
+### When should you optimize?
+
+### PureComponents instead of shouldComponentUpdate
+
+### How React Updates the DOM
+
+### Rendering Adjacent JSX Elements
+
+(Windows Users Must Read)
+
+### Using React.Fragment
+
+### Higher Order Components (HOC) - Introduction
+
+### Another Form of HOCs
+
+### Passing Unknown Props
+
+### Setting State Correctly
+
+### Using PropTypes
+
+### Using Refs
+
+### Refs with React Hooks
+
+### Understanding Prop Chain Problems
+
+### Using the Context API
+
+### contextType & useContext()
+
+### Wrap Up / Useful Resources & Links
