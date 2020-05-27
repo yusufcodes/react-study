@@ -633,8 +633,6 @@ This is the cycle which is followed when a the Component's **props** are updated
 Most important methods are **componentDidMount**() and **componentDidUpdate**() as you would typically do activities such as fetching data in these.
 _shouldComponentUpdate()_ can be used for performance improvements.
 
-**TODO: Make more concise notes on the lifecycle hooks with concrete examples!**
-
 ### \* The Component Lifecycle
 
 - These notes have been taken by myself from the official React documentation, as a means to summarise this area of the course.
@@ -658,7 +656,7 @@ Updates to a component are triggered by changes to **props** or **state**. The f
 - **shouldComponentUpdate**()
 - **render**()
 - **getSnapshotBeforeUpdate**()
-- **componentDidUpdate**()
+- **componentDidUpdate**(prevProps, prevState, snapshot)
 
 #### Unmounting / Removing from DOM
 
@@ -673,9 +671,9 @@ These methods are called when there's a rendering error:
 
 ### Using useEffect() in Functional Components
 
-The useEffect method can be used in functional components in place of the lifecycle methods - this was introduced with **React Hooks**.
+The **useEffect hook** can be used in functional components in place of the lifecycle methods - this was introduced with **React Hooks**.
 
-This method is executed whenever the component being used is created or updated. It is like componentDidMount and componentDidUpdate in one method.
+This method is executed whenever the component being used is **created** or **updated**. It is like componentDidMount and componentDidUpdate in one method.
 
 Setup:
 
@@ -691,7 +689,7 @@ useEffect(() => {
 
 ### Controlling the useEffect() Behavior
 
-By default this method will run all the time.. We can pass in an **array** of data for the useEffect hook to base its running off of. This means that, it will **only** execute when the data we pass into the method gets changed - not the entire virtual DOM.
+By default this method will run all the time. We can pass in an **array** of data for the useEffect hook to base its running off of. This means that, it will **only** execute when the data we pass into the method gets changed - not the entire virtual DOM.
 
 To run useEffect only for the **first time**, you pass in an empty array as a second parameter.
 
@@ -699,10 +697,10 @@ To run useEffect only for the **first time**, you pass in an empty array as a se
 
 'Cleaning' here refers to: when a component is removed from the DOM, and you have something like an event listener, you want to 'remove' them essentially cleaning up the application a bit. This can be done using lifecycle hooks / useEffect().
 
-**Class-based Component**
+**Class-based Component:**
 The method _componentWillUnmount()_ can be used as it will run when an element is removed from the DOM.
 
-**Function-based Component**
+**Function-based Component:**
 We can add a _return_ statement to our useEffect method. This will run before the main useEffect method:
 
 ```js
@@ -751,7 +749,7 @@ What happens here is we return true/false depending on the comparison of the old
 
 ### Optimizing Functional Components with React.memo()
 
-The previous example is only available in class based components, but we can use React.memo() in a functional component.
+The previous example is only available in class based components, but we can use **React.memo()** in a **functional component**.
 
 The way we do this is wrap our component inside the **memo** method as shown below:
 
@@ -759,15 +757,17 @@ The way we do this is wrap our component inside the **memo** method as shown bel
 export default React.memo(cockpit);
 ```
 
-This creates a 'image' of the component, where it can see if the input changes for this component. Only when the input changes the method will allow for a render to happen.
+This creates an 'image' of the component, so that React see if the input (props) change for this component. Only when the input changes, the method will allow for a render to happen. This saves you from using the shouldComponentUpdate() method to compare every single prop / input you have to a component, checking them all at once for you.
 
 ### When should you optimize?
 
 The only time the above optimizations should be ran is when you have unrelated content causing re-renders to a different component where it isn't needed.
 
+**Example**: We wouldn't want to re-render some list at the bottom of a page when we only want to update the header of the page.
+
 ### PureComponents instead of shouldComponentUpdate
 
-PureComponent is a different type of Component, where it will, by default, check if **any** prop is changed before attempting to re-render. It effectively has the checks you should do in shouldComponentUpdate, where you compare old props to new props, already. All you need to do is import PureComponent and extend from this class rather than the usual Component class.
+PureComponent is a different **type** of Component, where it will, by default, check if **any** prop is changed before attempting to re-render. It effectively has the checks you should do in shouldComponentUpdate, where you compare old props to new props, already. All you need to do is import PureComponent and extend from this class rather than the usual Component class.
 
 ### How React Updates the DOM
 
@@ -781,7 +781,7 @@ Accessing the real DOM can be slow, which is why React uses the Virtual DOM.
 
 ### Rendering Adjacent JSX Elements
 
-By default, when returning any JSX, it must be coming one **one root element** which will contain all the elements you want. However, we can defy this if we want to simpy return a set of elements with no wrapping div.
+By default, when returning any JSX, it must be contained in **one root element** which will contain all the elements you want. However, we can defy this if we want to simpy return a set of elements with no wrapping div.
 
 #### Method 1: Wrap the returned JSX in an Array
 
@@ -793,9 +793,9 @@ return [<p key="1">Element One</p>, <p key="2">{this.props.name}</p>];
 
 #### Method 2: Use a Higher Order Component
 
-A high order component is one that wraps around another one. We can essentially wrap all of our adjacent elements inside of an 'empty' high order component, to fulfil the JavaScript requirement that is: a function must return only one thing.
+A higher order component is one that wraps around another one. We can essentially wrap all of our adjacent elements inside of an 'empty' high order component, to fulfil the JavaScript requirement that is: a function must return only one thing.
 
-The hoc looks like this:
+The HOC looks like this:
 
 ```js
 // Outputs whatever is passed into the this component
@@ -818,7 +818,7 @@ return (
 );
 ```
 
-The key difference between using a hoc compared to an actual div is that this wrapper **won't** be rendered to the DOM: all it is doing is outputting the contents of its children as 'props.children' does.
+The key difference between using a HOC compared to an actual div is that this wrapper **won't** be rendered to the DOM: all it is doing is outputting the contents of its children as 'props.children' does.
 
 ### Using React.Fragment
 
@@ -839,6 +839,7 @@ This is just an example of how such HOC could be utilised and isn't always neede
 ### Another Form of HOCs
 
 This next form of HOC is best used when you need to add some extra logic to a component, rather than say, a bit of styling via a class name.
+
 Rather than create a new component, we instead write a **function** which **returns a new component**. Below is an example - all we are doing is adding a class to a component that we pass in:
 
 ```js
