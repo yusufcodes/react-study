@@ -629,10 +629,9 @@ getSnapshotBeforeUpdate(prevProps, prevState) ➡️ This gets a 'snapshot' of t
 ⬇️
 componentDidUpdate() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
 
-
 ### Component Update Lifecycle (for state Changes)
 
-Most important methods are componentDidMount() and componentDidUpdate() as you would typically do activities such as fetching data in these. 
+Most important methods are componentDidMount() and componentDidUpdate() as you would typically do activities such as fetching data in these.
 shouldComponentUpdate() can be used for performance improvements.
 
 **TODO: Make more concise notes on the lifecycle hooks with concrete examples!**
@@ -666,28 +665,28 @@ To run useEffect only for the **first time**, you pass in an empty array as a se
 'Cleaning' here refers to: when a component is removed from the DOM, and you have something like an event listener, you want to 'remove' them essentially cleaning up the application a bit. This can be done using lifecycle hooks / useEffect().
 
 **Class-based Component**
-The method *componentWillUnmount()* can be used as it will run when an element is removed from the DOM.
+The method _componentWillUnmount()_ can be used as it will run when an element is removed from the DOM.
 
 **Function-based Component**
-We can add a *return* statement to our useEffect method. This will run before the main useEffect method:
+We can add a _return_ statement to our useEffect method. This will run before the main useEffect method:
 
 ```js
 useEffect(() => {
-  // Do some stuff 
+  // Do some stuff
   return () => {
-    console.log('Cleanup here');
-  }
-})
+    console.log("Cleanup here");
+  };
+});
 ```
 
 Note that the above will work only if we pass in an empty array as a second argument to the useEffect method: this causes the hook to run upon **first render** and then when it is eventually **removed**. Without this argument, it will fire every single time (which you might want in some instances!).
 
 ```js
 // Runs on initial render and once component is removed
-useEffect( () => {
-  console.log('useEffect');
-  return() => {
-    console.log('cleanup work');
+useEffect(() => {
+  console.log("useEffect");
+  return () => {
+    console.log("cleanup work");
   };
 }, []);
 
@@ -695,12 +694,12 @@ useEffect( () => {
 /* Output:
 2nd cleanup work
 2nd useEffect */
-useEffect( () => {
-  console.log('2nd useEffect');
+useEffect(() => {
+  console.log("2nd useEffect");
   return () => {
-    console.log('2nd cleanup work');
+    console.log("2nd cleanup work");
   };
-} );
+});
 ```
 
 ### Using shouldComponentUpdate for Optimization
@@ -720,6 +719,7 @@ What happens here is we return true/false depending on the comparison of the old
 The previous example is only available in class based components, but we can use React.memo() in a functional component.
 
 The way we do this is wrap our component inside the **memo** method as shown below:
+
 ```js
 export default React.memo(cockpit);
 ```
@@ -742,7 +742,7 @@ We have the **Old Virtual DOM** and then the **Re-rendered Virtual DOM** kept by
 
 Any differences are updated in the real DOM. Otherwise the real DOM is not touched.
 
-Accessing the real DOM can be slow, which is why React uses the Virtual DOM. 
+Accessing the real DOM can be slow, which is why React uses the Virtual DOM.
 
 ### Rendering Adjacent JSX Elements
 
@@ -753,20 +753,18 @@ By default, when returning any JSX, it must be coming one **one root element** w
 Below is a basic example to show the usage of returning an array. Rather than wrapping the elements in one single div, around parentheses, we can omit the outer div and just return a set of elements in an Array. All we need to do is use typical Array syntax and it works. However we **must** assign a key to each element as React needs a way to identify each element in the Array.
 
 ```js
-return [
-  <p key="1">Element One</p>,
-  <p key="2">{this.props.name}</p>
-];
+return [<p key="1">Element One</p>, <p key="2">{this.props.name}</p>];
 ```
 
 #### Method 2: Use a Higher Order Component
 
-A high order component is one that wraps around another one. We can essentially wrap all of our adjacent elements inside of an 'empty' high order component, to fulfil the JavaScript requirement that is: a function must return only one thing. 
+A high order component is one that wraps around another one. We can essentially wrap all of our adjacent elements inside of an 'empty' high order component, to fulfil the JavaScript requirement that is: a function must return only one thing.
 
 The hoc looks like this:
+
 ```js
 // Outputs whatever is passed into the this component
-const auxilary = props => props.children;
+const auxilary = (props) => props.children;
 
 export default auxilary;
 ```
@@ -776,14 +774,16 @@ And then the elements we want to return in our main app can be wrapped around th
 ```js
 return (
   <Auxilary>
-    <p onClick={this.props.click}>I'm a {this.props.name} and I am {this.props.age} years old!</p>
+    <p onClick={this.props.click}>
+      I'm a {this.props.name} and I am {this.props.age} years old!
+    </p>
     <p>{this.props.children}</p>
-    <input type="text" onChange={this.props.changed} value={this.props.name}/>
+    <input type="text" onChange={this.props.changed} value={this.props.name} />
   </Auxilary>
 );
 ```
 
-The key difference between using a hoc compared to an actual div is that this wrapper **won't** be rendered to the DOM: all it is doing is outputting the contents of its children as 'props.children' does. 
+The key difference between using a hoc compared to an actual div is that this wrapper **won't** be rendered to the DOM: all it is doing is outputting the contents of its children as 'props.children' does.
 
 ### Using React.Fragment
 
@@ -794,9 +794,9 @@ Since React 16.2 there is a built-in 'Auxilary' component called **React.Fragmen
 An example was demonstrated here where div wrappers containing some classes were converted into a generic, HOC, with the following structure:
 
 ```js
-const withClass = props => {
-  <div className={props.classes}>{props.children}</div>
-}
+const withClass = (props) => {
+  <div className={props.classes}>{props.children}</div>;
+};
 ```
 
 This is just an example of how such HOC could be utilised and isn't always needed - just for demo.
@@ -810,35 +810,134 @@ Rather than create a new component, we instead write a **function** which **retu
 // WrappedComponent: The component we will pass into the function to be displayed
 // className and any other additional parameters: Extra info we need to supply to the component
 const withClass = (WrappedComponent, className) => {
-  return props => (
+  return (props) => (
     <div className={className}>
       <WrappedComponent />
     </div>
-  )
-}
+  );
+};
 ```
 
 To implement this, we need to wrap our component during the export stage as shown below:
 
 ```js
-export default withClass(App, classes.App)
+export default withClass(App, classes.App);
 ```
 
 ### Passing Unknown Props
 
-The problem with the above method is that we end up losing all our props automatically, and we need to add them back somehow. 
+The problem with the above method is that we end up losing all our props automatically, and we need to add them back somehow.
 The way we do this is to **spread** the props that we receive into the WrappedComponent:
+
 ```js
-<WrappedComponent {...props}/>
+<WrappedComponent {...props} />
 ```
 
 ### Setting State Correctly
 
+So far in the course, we've been setting state correctly with the setState method. Below is an example of using it 'incorrectly'.
+
+setState is called synchronously when we use it, and whilst most of the time it will finish executing right away, this may not always be the case.
+If we tried to update an item in our state, using 'this.state...', we are not always guaranteed to have the updated version of the item we're updating.
+In such a scenario where state may be updated in multiple places, relying on the state being totally up to date is not the best idea. There is a better way to approach such a task - **passing in an optional function to setState when depending on state values:**
+
+It makes use of the provided previous state in the function to update old state values.
+
+```js
+this.setState((prevState, props) => {
+  return {
+    persons: persons,
+    changeCounter: prevState.changeCounter + 1,
+  };
+});
+```
+
 ### Using PropTypes
+
+There is a another way of introducting props to a component through installing a package called **prop-types**.
+
+This package allows for you to dictate the **data type** of each prop you are using in a component. After your component declaration, you create a new property against the component you are working with 'propTypes' to define the different data types. Now anytime the incorrect data type is passed in, an error will be thrown at you in the console.
+
+```js
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func,
+};
+```
 
 ### Using Refs
 
-### Refs with React Hooks
+References (refs) is a way to select a React element. Below are two ways of achieving this. Note that this will only work with class components.
+
+#### Method 1
+
+Add a 'ref' attribute to the element you are working with. It takes an argument being the actual item you are working with.
+You can then set a property equal to the element you want to do something with and access it elsewhere in your component.
+
+```js
+<Component
+  ref={(inputEl) => {
+    this.inputElement = inputEl;
+  }}
+/>
+```
+
+In this example, we go ahead and use the last input element we rendered to the screen and cause it to focus once loaded (componentDidMount).
+
+```js
+componentDidMount() {
+  this.inputElement.focus();
+}
+```
+
+#### Method 2: React.createRef()
+
+In this approach, we use the **createRef** method to **prep** our reference value in the constructor.
+
+```js
+constructor();
+{
+  super();
+  // This will hold the reference for our input element once it is set later in 'ref' attribute
+  this.inputElementRef = React.createRef();
+}
+```
+
+Now we have a generic reference to be used, it can be assigned to the element we want, similarly to Method 1, using the ref attribute.
+
+```js
+<Component ref={this.inputElementRef} />
+```
+
+Now to access the current element, we need to use the **current** property of the reference so React knows to get the 'current' one:
+
+```js
+componentDidMount() {
+  this.inputElementRef.current.focus();
+}
+```
+
+### Refs with React Hooks: useRef
+
+We can somewhat use Method 2 above in a function-based component to make use of refs, outlined below using the **useRef hook:**
+
+```js
+// Import useRef
+import React, { useEffect, useRef } from "react";
+
+// Setup the reference for the button / item you want to get reference to
+const toggleBtnRef = useRef();
+
+// Set the ref attribute to the reference created earlier
+<button ref={toggleBtnRef} />;
+
+// Access the element using the current property:
+toggleBtnRef.current.click();
+```
+
+In our code example we used the click method inside our **useEffect** hook method, so that way the elements will have completely rendered to the page before we attempted anything.
 
 ### Understanding Prop Chain Problems
 

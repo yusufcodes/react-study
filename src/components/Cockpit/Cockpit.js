@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classes from './Cockpit.css';
 
 const cockpit = (props) => {
+  const toggleBtnRef = useRef(); // Setting up reference for button
+
+  // Empty array passed into useEffect so it only runs once fully loaded and then during cleanup
     useEffect(() => {
       console.log('[Cockpit.js] useEffect');
-    });
+      // Setting up the click to run once all elements are loaded
+      toggleBtnRef.current.click();
+      return () => {
+        console.log('[Cockpit.js] cleanup work in useEffect');
+      };
+    }, []);
 
     const assignedClasses = [];
 
@@ -27,7 +35,10 @@ const cockpit = (props) => {
         <div className={classes.Cockpit}>
             <h1>Hi, I'm a React App</h1>
             <p className={assignedClasses.join(' ')}>This is really working!</p>
-            <button className={btnClass.join(' ')} onClick={props.clicked}>
+            <button
+            className={btnClass.join(' ')}
+            ref={toggleBtnRef}
+            onClick={props.clicked}>
             Show / Hide Names
             </button>
         </div>

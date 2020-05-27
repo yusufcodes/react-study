@@ -17,7 +17,8 @@ class App extends Component {
       { id: 'cije3',name: 'Manu', age: 29 },
       { id: 'hfcd5', name: 'Stephanie', age: 26 }
     ],
-    showPeople: false
+    showPeople: false,
+    changeCounter: 0
   };
 
   // 2. Lifecycle #2
@@ -58,7 +59,14 @@ class App extends Component {
     persons[personIndex] = person;
 
     // Update the persons state
-    this.setState({persons: persons});
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      }
+    })
+
+    console.log(`Counter: ${this.state.changeCounter}`);
   }
 
   usernameChangedHandler = (event) => {
