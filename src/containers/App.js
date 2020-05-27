@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   // 1. Lifecycle #1
@@ -18,7 +19,8 @@ class App extends Component {
       { id: 'hfcd5', name: 'Stephanie', age: 26 }
     ],
     showPeople: false,
-    changeCounter: 0
+    changeCounter: 0,
+    auth: false
   };
 
   // 2. Lifecycle #2
@@ -86,6 +88,10 @@ class App extends Component {
     this.setState({showPeople: !doesShow});
   };
 
+  loginHandler = () => {
+    this.setState({auth: true});
+  }
+
   // 3. Lifecycle #3
   render() {
     console.log('[App.js] render');
@@ -97,7 +103,8 @@ class App extends Component {
           <Persons
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.nameChangedHandler}> 
+          changed={this.nameChangedHandler}
+          isAuth={this.state.auth}> 
           </Persons>
         </div>;
     }
@@ -107,7 +114,8 @@ class App extends Component {
         <Cockpit
         showPersons={this.state.showPeople}
         persons={this.state.persons}
-        clicked={this.displayPeopleChangedHandler}/>
+        clicked={this.displayPeopleChangedHandler}
+        login={this.loginHandler}/>
         {people}
       </div>
     );

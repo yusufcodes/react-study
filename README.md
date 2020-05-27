@@ -941,8 +941,98 @@ In our code example we used the click method inside our **useEffect** hook metho
 
 ### Understanding Prop Chain Problems
 
+This section addresses the issue of passing props endlessly from one component to another. When you need to pass some data through 'layers' of components e.g. Layer A -> Layer C, we probably don't want to have to go through the additional layer, B, to get to C. We don't care about the data here, we just need to transport it to C. This is what the **Context API** solves.
+
 ### Using the Context API
+
+The context is like a 'globally' available JavaScript object. It can also be of any other datatype.
+
+Create a new folder called context with a new .js file 'auth-context.js'
+
+Setup the Context API as follows:
+
+```js
+import React from "react";
+
+const authContext = React.createContext();
+
+export default authContext;
+```
+
+We can pre-set any properties we want in our Context object as well:
+
+```js
+const authContext = React.createContext({
+  auth: false,
+  login: () => {},
+});
+```
+
+Then you import this component where you want to use it, and **wrap** any other component that needs access to the context. We must do this in the following way:
+
+```js
+<AuthContext.Provider
+  value={{
+    auth: this.state.auth,
+    login: this.loginHandler,
+  }}
+>
+  {/* Other components here */}
+</AuthContext.Provider>
+```
+
+Now we have set these values, any nested components can access these values. Make sure to import the context component in other components too.
+Example:
+
+```js
+render() {
+  return (
+    <AuthContext.Consumer>
+    {(context) => return (
+      //...
+    )}
+    </AuthContext.Consumer>
+  )
+}
+```
+
+We must return the AuthContext.Consumer component, which actually takes a function first which **thenn** returns the desired JSX we wanted. The function provides the 'context' that we want to access.
 
 ### contextType & useContext()
 
+#### contextType - class based components
+
+React 16.6 introduced another way of using context - **contextType**:
+
+```js
+// Must be accessed as a static property with the name contextType, and then set it to the imported context class we created earlier:
+static contextType = AuthContext;
+
+// Then to access any data from the context, we use this.context
+console.log(this.context.auth);
+```
+
+### useContext() - function based components
+
+We can use the **useContext** hook to access context in function based components. We import **useContext** first before we are able to do anything.
+
+```js
+const authContext = useContext(AuthContext);
+console.log(authContext.auth);
+```
+
 ### Wrap Up / Useful Resources & Links
+
+This module was very knowledge heavy - can be seen as a reference module. Features in this module to be used in later areas.
+
+#### Links
+
+[More on useEffect](https://reactjs.org/docs/hooks-effect.html)
+
+[State & Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
+
+[PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html)
+
+[Higher Order Components](https://reactjs.org/docs/higher-order-components.html)
+
+[Refs](https://reactjs.org/docs/refs-and-the-dom.html)
