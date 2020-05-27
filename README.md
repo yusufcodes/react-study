@@ -601,14 +601,14 @@ In these first couple of lectures, we move a lot of logic / UI out of the main A
 These are only available in class-based components. There are a number of methods that can be added to a class-based component, this is outlined below in a set of stages:
 _Note: This has nothing to do with React Hooks_
 
-**Component Lifecycle - Creation**
+### Component Lifecycle - Creation
 
-- constructor(props) ➡️ initialisation such as setting up state
+- **constructor**(props) ➡️ initialisation such as setting up state
   _Note:_ Must call **super(props)** so that the constructor of the _Component_ class is also executed.
-- getDerivedStateFromProps(props, state) ➡️ Synchronising state
-- render() ➡️ Get JSX code ready to be rendered
+- **getDerivedStateFromProps**(props, state) ➡️ Synchronising state
+- **render**() ➡️ Get JSX code ready to be rendered
 - _Render Child Components from the render() method_
-- componentDidMount() ➡️ runs once other components render, here you can do common things such as http requests etc. however do **not** update the state here, as it will cause a re-render
+- **componentDidMount**() ➡️ runs once other components render, here you can do common things such as http requests etc. however do **not** update the state here, as it will cause a re-render
 
 You can try and achieve different things at different points of the creation / updating of a component. For example, you may want to wait until something is fully rendered before attempting anything - this functionality could go into **componentDidMount()**.
 
@@ -616,24 +616,60 @@ You can try and achieve different things at different points of the creation / u
 
 This is the cycle which is followed when a the Component's **props** are updated:
 
-- getDerivedStateFromProps(props, state) ➡️ Used to synchronise the state to props (instructor said more elegant ways of doing this)
+- **getDerivedStateFromProps**(props, state) ➡️ Used to synchronise the state to props (instructor said more elegant ways of doing this)
   ⬇️
-- shouldComponentUpdate(nextProps, nextState) ➡️ Here you can decide whether or not to continue updating a component, with the ability to cancel an update in progress.
+- **shouldComponentUpdate**(nextProps, nextState) ➡️ Here you can decide whether or not to continue updating a component, with the ability to cancel an update in progress.
   ⬇️
-- render()
+- **render**()
   ⬇️
 - Update Child Component Props
   ⬇️
-- getSnapshotBeforeUpdate(prevProps, prevState) ➡️ This gets a 'snapshot' of the component before it is updated.
+- **getSnapshotBeforeUpdate**(prevProps, prevState) ➡️ This gets a 'snapshot' of the component before it is updated.
   ⬇️
-- componentDidUpdate() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
+- **componentDidUpdate**() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
 
 ### Component Update Lifecycle (for state Changes)
 
-Most important methods are componentDidMount() and componentDidUpdate() as you would typically do activities such as fetching data in these.
-shouldComponentUpdate() can be used for performance improvements.
+Most important methods are **componentDidMount**() and **componentDidUpdate**() as you would typically do activities such as fetching data in these.
+_shouldComponentUpdate()_ can be used for performance improvements.
 
 **TODO: Make more concise notes on the lifecycle hooks with concrete examples!**
+
+### \* The Component Lifecycle
+
+- These notes have been taken by myself from the official React documentation, as a means to summarise this area of the course.
+
+[Visual Diagram of Lifecycle](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+
+#### Mounting / Adding to DOM
+
+This is the order in which these methods are called when a component is being **created and inserted** into the DOM:
+
+- **constructor**()
+- static **getDerivedStateFromProps**()
+- **render**()
+- **componentDidMount**()
+
+#### Updating
+
+Updates to a component are triggered by changes to **props** or **state**. The following methods are called when a component is being re-rendered:
+
+- static **getDerivedStateFromProps**()
+- **shouldComponentUpdate**()
+- **render**()
+- **getSnapshotBeforeUpdate**()
+- **componentDidUpdate**()
+
+#### Unmounting / Removing from DOM
+
+One method is called when a component is being removed from the DOM: **componentWillUnmount**().
+
+#### Error Handling
+
+These methods are called when there's a rendering error:
+
+- static **getDerivedStateFromError**()
+- **componentDidCatch**()
 
 ### Using useEffect() in Functional Components
 
