@@ -582,19 +582,17 @@ We will be using a **high-order component**. This is a component which **wraps**
 
 ### A Better Project Structure & Splitting an App Into Components
 
-In these first couple of lectures, we move a lot of logic / UI out of the main App.js into their own components. App.js is now only responsible for handling and manipulating the state. Through moving other UI / areas of the app we now have a better project structure.
+In these first couple of lectures, we move a lot of logic / UI out of the main App.js into their own components. App.js is now only responsible for handling and manipulating the state. Through moving other UI / areas of the app, we now have a better project structure.
 
 ### Comparing Stateless and Stateful Components
 
-App is a stateful component where state is being managed.
-
-Other components such as Person, are referred to as Stateless or Presentational.
-
-We should have mostly dumb / presentational / stateless components to keep the app more manageable: so we are only manipulating state in a limited number of places.
+- App.js is a **stateful** component where state is being managed.
+- Other components such as Person, are referred to as Stateless or Presentational.
+- We should have mostly **dumb / presentational / stateless components** to keep the app more manageable: so we are only manipulating state in a limited number of places.
 
 ### Class-based vs Functional Components
 
-![Class vs Functional Components](https://prnt.sc/so1yxl)
+[Class vs Functional Components](https://prnt.sc/so1yxl)
 [Credit: Maximilian Schwarzmüller](https://www.udemy.com/user/academind/)
 
 ### Class Component Lifecycle Overview
