@@ -615,29 +615,138 @@ _Note: This has nothing to do with React Hooks_
 
 ### Component Update Lifecycle (for props Changes)
 
+This is the cycle which is followed when a the Component's **props** are updated:
+
+getDerivedStateFromProps(props, state) ➡️ Used to synchronise the state to props (instructor said more elegant ways of doing this)
+⬇️
+shouldComponentUpdate(nextProps, nextState) ➡️ Here you can decide whether or not to continue updating a component, with the ability to cancel an update in progress.
+⬇️
+render()
+⬇️
+Update Child Component Props
+⬇️
+getSnapshotBeforeUpdate(prevProps, prevState) ➡️ This gets a 'snapshot' of the component before it is updated.
+⬇️
+componentDidUpdate() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
+
+
 ### Component Update Lifecycle (for state Changes)
+
+Most important methods are componentDidMount() and componentDidUpdate() as you would typically do activities such as fetching data in these. 
+shouldComponentUpdate() can be used for performance improvements.
+
+**TODO: Make more concise notes on the lifecycle hooks with concrete examples!**
 
 ### Using useEffect() in Functional Components
 
+The useEffect method can be used in functional components in place of the lifecycle methods - this was introduced with **React Hooks**.
+
+This method is executed whenever the component being used is created or updated. It is like componentDidMount and componentDidUpdate in one method.
+
+Setup:
+
+```js
+import React, { useEffect } from 'react';
+
+...
+
+useEffect(() => {
+  console.log('[Cockpit.js] useEffect');
+});
+```
+
 ### Controlling the useEffect() Behavior
+
+By default this method will run all the time.. We can pass in an **array** of data for the useEffect hook to base its running off of. This means that, it will **only** execute when the data we pass into the method gets changed - not the entire virtual DOM.
+
+To run useEffect only for the **first time**, you pass in an empty array as a second parameter.
 
 ### Cleaning up with Lifecycle Hooks & useEffect()
 
-### Cleanup Work with useEffect() - Example
+'Cleaning' here refers to: when a component is removed from the DOM, and you have something like an event listener, you want to 'remove' them essentially cleaning up the application a bit. This can be done using lifecycle hooks / useEffect().
+
+**Class-based Component**
+The method *componentWillUnmount()* can be used as it will run when an element is removed from the DOM.
+
+**Function-based Component**
+We can add a *return* statement to our useEffect method. This will run before the main useEffect method:
+
+```js
+useEffect(() => {
+  // Do some stuff 
+  return () => {
+    console.log('Cleanup here');
+  }
+})
+```
+
+Note that the above will work only if we pass in an empty array as a second argument to the useEffect method: this causes the hook to run upon **first render** and then when it is eventually **removed**. Without this argument, it will fire every single time (which you might want in some instances!).
+
+```js
+// Runs on initial render and once component is removed
+useEffect( () => {
+  console.log('useEffect');
+  return() => {
+    console.log('cleanup work');
+  };
+}, []);
+
+// Runs all the time
+/* Output:
+2nd cleanup work
+2nd useEffect */
+useEffect( () => {
+  console.log('2nd useEffect');
+  return () => {
+    console.log('2nd cleanup work');
+  };
+} );
+```
 
 ### Using shouldComponentUpdate for Optimization
 
+When a change happens to the DOM, it may not always require a re-render of a particular component. We can use **shouldComponentUpdate** to determine whether something needs updating. This is based on the new value of the prop, and the previous value. This is demonstrated below:
+
+```js
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.persons !== this.props.persons;
+  }
+```
+
+What happens here is we return true/false depending on the comparison of the old props and the new props. This then determines whether the component updates and therefore re-renders, hence the name shouldComponentUpdate.
+
 ### Optimizing Functional Components with React.memo()
+
+The previous example is only available in class based components, but we can use React.memo() in a functional component.
+
+The way we do this is wrap our component inside the **memo** method as shown below:
+```js
+export default React.memo(cockpit);
+```
+
+This creates a 'image' of the component, where it can see if the input changes for this component. Only when the input changes the method will allow for a render to happen.
 
 ### When should you optimize?
 
+The only time the above optimizations should be ran is when you have unrelated content causing re-renders to a different component where it isn't needed.
+
 ### PureComponents instead of shouldComponentUpdate
+
+PureComponent is a different type of Component, where it will, by default, check if **any** prop is changed before attempting to re-render. It effectively has the checks you should do in shouldComponentUpdate, where you compare old props to new props, already. All you need to do is import PureComponent and extend from this class rather than the usual Component class.
 
 ### How React Updates the DOM
 
+render() is called ➡️ this does **NOT** mean a full render to the actual DOM is performed. It compares Virtual DOMs:
+
+We have the **Old Virtual DOM** and then the **Re-rendered Virtual DOM** kept by React. The **re-rendered** one is created when we call render() and then the comparison happens.
+
+Any differences are updated in the real DOM. Otherwise the real DOM is not touched.
+
+Accessing the real DOM can be slow, which is why React uses the Virtual DOM. 
+
 ### Rendering Adjacent JSX Elements
 
-(Windows Users Must Read)
+#### (Windows Users Must Read)
 
 ### Using React.Fragment
 

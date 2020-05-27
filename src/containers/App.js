@@ -27,7 +27,17 @@ class App extends Component {
     return state;
   }
 
+  // Updating State
   componentDidMount = () => console.log('[App.js] componentDidMount');
+
+  shouldComponentUpdate(nextProps, prevProps) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
 
   nameChangedHandler = (event, id) => {
     // Get a copy of the persons state
