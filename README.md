@@ -593,6 +593,7 @@ In these first couple of lectures, we move a lot of logic / UI out of the main A
 ### Class-based vs Functional Components
 
 [Class vs Functional Components](https://prnt.sc/so1yxl)
+
 [Credit: Maximilian Schwarzmüller](https://www.udemy.com/user/academind/)
 
 ### Class Component Lifecycle Overview
