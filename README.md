@@ -610,23 +610,23 @@ _Note: This has nothing to do with React Hooks_
 - _Render Child Components from the render() method_
 - componentDidMount() ➡️ runs once other components render, here you can do common things such as http requests etc. however do **not** update the state here, as it will cause a re-render
 
-**TO DO: Read up on this further, all I see is that they run one after the other but not sure when to use / why - maybe this will become clear later on? **
+You can try and achieve different things at different points of the creation / updating of a component. For example, you may want to wait until something is fully rendered before attempting anything - this functionality could go into **componentDidMount()**.
 
 ### Component Update Lifecycle (for props Changes)
 
 This is the cycle which is followed when a the Component's **props** are updated:
 
-getDerivedStateFromProps(props, state) ➡️ Used to synchronise the state to props (instructor said more elegant ways of doing this)
-⬇️
-shouldComponentUpdate(nextProps, nextState) ➡️ Here you can decide whether or not to continue updating a component, with the ability to cancel an update in progress.
-⬇️
-render()
-⬇️
-Update Child Component Props
-⬇️
-getSnapshotBeforeUpdate(prevProps, prevState) ➡️ This gets a 'snapshot' of the component before it is updated.
-⬇️
-componentDidUpdate() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
+- getDerivedStateFromProps(props, state) ➡️ Used to synchronise the state to props (instructor said more elegant ways of doing this)
+  ⬇️
+- shouldComponentUpdate(nextProps, nextState) ➡️ Here you can decide whether or not to continue updating a component, with the ability to cancel an update in progress.
+  ⬇️
+- render()
+  ⬇️
+- Update Child Component Props
+  ⬇️
+- getSnapshotBeforeUpdate(prevProps, prevState) ➡️ This gets a 'snapshot' of the component before it is updated.
+  ⬇️
+- componentDidUpdate() ➡️ We can now perform anything such as a HTTP request however, we do **not** want to set the state here because it will trigger a re-render, causing an infinite loop of this lifecycle.
 
 ### Component Update Lifecycle (for state Changes)
 
