@@ -746,15 +746,91 @@ Accessing the real DOM can be slow, which is why React uses the Virtual DOM.
 
 ### Rendering Adjacent JSX Elements
 
-#### (Windows Users Must Read)
+By default, when returning any JSX, it must be coming one **one root element** which will contain all the elements you want. However, we can defy this if we want to simpy return a set of elements with no wrapping div.
+
+#### Method 1: Wrap the returned JSX in an Array
+
+Below is a basic example to show the usage of returning an array. Rather than wrapping the elements in one single div, around parentheses, we can omit the outer div and just return a set of elements in an Array. All we need to do is use typical Array syntax and it works. However we **must** assign a key to each element as React needs a way to identify each element in the Array.
+
+```js
+return [
+  <p key="1">Element One</p>,
+  <p key="2">{this.props.name}</p>
+];
+```
+
+#### Method 2: Use a Higher Order Component
+
+A high order component is one that wraps around another one. We can essentially wrap all of our adjacent elements inside of an 'empty' high order component, to fulfil the JavaScript requirement that is: a function must return only one thing. 
+
+The hoc looks like this:
+```js
+// Outputs whatever is passed into the this component
+const auxilary = props => props.children;
+
+export default auxilary;
+```
+
+And then the elements we want to return in our main app can be wrapped around this new component like so:
+
+```js
+return (
+  <Auxilary>
+    <p onClick={this.props.click}>I'm a {this.props.name} and I am {this.props.age} years old!</p>
+    <p>{this.props.children}</p>
+    <input type="text" onChange={this.props.changed} value={this.props.name}/>
+  </Auxilary>
+);
+```
+
+The key difference between using a hoc compared to an actual div is that this wrapper **won't** be rendered to the DOM: all it is doing is outputting the contents of its children as 'props.children' does. 
 
 ### Using React.Fragment
 
+Since React 16.2 there is a built-in 'Auxilary' component called **React.Fragment** - you type this into the pointed brackets to make use of it. It works exactly the same as the one we created ourself.
+
 ### Higher Order Components (HOC) - Introduction
+
+An example was demonstrated here where div wrappers containing some classes were converted into a generic, HOC, with the following structure:
+
+```js
+const withClass = props => {
+  <div className={props.classes}>{props.children}</div>
+}
+```
+
+This is just an example of how such HOC could be utilised and isn't always needed - just for demo.
 
 ### Another Form of HOCs
 
+This next form of HOC is best used when you need to add some extra logic to a component, rather than say, a bit of styling via a class name.
+Rather than create a new component, we instead write a **function** which **returns a new component**. Below is an example - all we are doing is adding a class to a component that we pass in:
+
+```js
+// WrappedComponent: The component we will pass into the function to be displayed
+// className and any other additional parameters: Extra info we need to supply to the component
+const withClass = (WrappedComponent, className) => {
+  return props => (
+    <div className={className}>
+      <WrappedComponent />
+    </div>
+  )
+}
+```
+
+To implement this, we need to wrap our component during the export stage as shown below:
+
+```js
+export default withClass(App, classes.App)
+```
+
 ### Passing Unknown Props
+
+The problem with the above method is that we end up losing all our props automatically, and we need to add them back somehow. 
+The way we do this is to **spread** the props that we receive into the WrappedComponent:
+```js
+<WrappedComponent {...props}/>
+```
 
 ### Setting State Correctly
 
