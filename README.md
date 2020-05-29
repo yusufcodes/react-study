@@ -523,6 +523,8 @@ So far, all the CSS that has been written has been inside our JavaScript files. 
 
 #### Getting CSS Modules to work
 
+_Update:_ Ejecting is not needed anymore for this to work see [this link](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet)
+
 1. Get access to the config files created with create-react-app:
 
    > npm run eject
@@ -1080,3 +1082,33 @@ This module was very knowledge heavy - can be seen as a reference module. Featur
 [Higher Order Components](https://reactjs.org/docs/higher-order-components.html)
 
 [Refs](https://reactjs.org/docs/refs-and-the-dom.html)
+
+## Section 8: A Real App: The Burger Builder (Basic Version)
+
+### Planning an App in React - Core Steps
+
+There are **three main areas** we could focus on when planning a new app:
+
+1. Component Tree / Structure: How we lay out alll of the components
+2. Application State: The state data we may need in the app
+3. Components vs Containers: Determine which Components need to handle state (components) and which are there for presentation (containers)
+
+### Planning our App - Layout and Component Tree
+
+Define the app and what it should be able to do. For this app, a user should be able to add a set of ingredients to build a burger, that they go on to purchase.
+
+- Header with buttons and logo
+- Section to actually build the burger: render list of ingredients which can be added / removed
+- Checkout button
+
+[Layout and Component Tree](https://prnt.sc/spuxqq)
+
+### Planning the State
+
+- Ingredients: which the user has added: JS object with the ingredient as the key and the quantity by value
+- Purchased: Boolean whether or not the user has bought the burger
+- totalPrice: Keep track of the total cost of the burger
+
+This state should be managed in the **BurgerBuilder** section rather than the root App level as this state is only linked to this section of the site. Later if we add more pages, this information may not be relevant.
+
+**The rest of this section's content is in another repo - LINK HERE**
