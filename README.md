@@ -13,6 +13,7 @@ This repo will contain the code and notes (below) for the Udemy course: [React -
 - [Section 5: Styling React Components & Elements](#section-5-styling-react-components--elements)
 - [Section 6: Debugging React Apps](#section-6-debugging-react-apps)
 - [Section 7: Diving Deeper into Components & React Internals](#section-7-diving-deeper-into-components--react-internals)
+- [Section 8: A Real App: The Burger Builder (Basic Version)](#section-8-a-real-app-the-burger-builder-basic-version)
 
 ## Section 3: Understanding the Base Features & Syntax
 
