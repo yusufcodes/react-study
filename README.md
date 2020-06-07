@@ -1113,3 +1113,20 @@ Define the app and what it should be able to do. For this app, a user should be 
 This state should be managed in the **BurgerBuilder** section rather than the root App level as this state is only linked to this section of the site. Later if we add more pages, this information may not be relevant.
 
 [Section 8: Burger Builder App Repo](https://github.com/yusufcodes/react-burgerbuilder)
+
+## Section 9: Reaching out to the Web (Http / Ajax)
+
+### Understanding HTTP requests in React
+
+When React sends a HTTP request to a server, the response is a **JSON** response (often).
+
+### Understanding Our Project and Using Axios
+
+Instructor introduces a blog project to practice using HTTP - a [fake REST API](www.jsonplaceholder.typicode.com) will be used to mock some data for blog posts.
+Recommendation to use **Axios** to make it easy to perform HTTP requests.
+
+### Creating a HTTP request to GET data
+
+The best component lifecycle to place a HTTP request is **componentDidMount()** to **fetch** the data. We do not render from this data in this method just yet so we avoid trigerring a re-render.
+
+Axios uses Promises so we can chain **.then()** to decide what to do with the response we receive.
