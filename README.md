@@ -1111,4 +1111,4 @@ Define the app and what it should be able to do. For this app, a user should be 
 
 This state should be managed in the **BurgerBuilder** section rather than the root App level as this state is only linked to this section of the site. Later if we add more pages, this information may not be relevant.
 
-**The rest of this section's content is in another repo - LINK HERE**
+[Section 8: Burger Builder App Repo](https://github.com/yusufcodes/react-burgerbuilder)
