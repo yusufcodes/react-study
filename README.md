@@ -1148,3 +1148,15 @@ The idea in this little section is to load the currently selected post informati
 Now, in the component we want to load the post, we need to make a new AJAX request to **get the post by ID.** This is done in the **componentDidUpdate()** lifecycle hook.
 
 To actually load the contents of the post, first we chain .then() and use setState. But in the code lower down, we must check if this value is actually **assigned** using an if block.
+
+### Handling Errors Locally
+
+The **catch** blog in Promises can be used to handle errors from requests using this such as Axios.
+
+### Adding Interceptors to Execute Code Globally
+
+Axios has an **interceptors** object which can be chained with 'request.use()' and 'response.use()', taking in a function with parameters request/response, and then error. In these methods we can globally 'intercept' the request / response to edit it in some way, and / or handle an error. I did **not** add this to my code but it is here as a reference.
+
+### Useful Links / Resources
+
+[Axios Docs](https://github.com/axios/axios)
