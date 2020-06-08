@@ -1130,3 +1130,21 @@ Recommendation to use **Axios** to make it easy to perform HTTP requests.
 The best component lifecycle to place a HTTP request is **componentDidMount()** to **fetch** the data. We do not render from this data in this method just yet so we avoid trigerring a re-render.
 
 Axios uses Promises so we can chain **.then()** to decide what to do with the response we receive.
+
+### Transforming Data
+
+In the **then** block of the AJAX request, you can manipulate the data you receive to your liking. This can be useful if, for example, you want to limit the number of responses you want to use from a request, or add / remove fields of data that have been returned.
+
+### Making a selectable Post
+
+The idea in this little section is to load the currently selected post information into some forms below it. I want to outline the steps he takes for future use in similar usecases:
+
+- Add an **onClick** attribute to the **Post** component
+- In the main **Blog** component, set up this click listener and send this method as a prop
+- Pass in the received ID from the AJAX request to the click listener
+- Add a new state variable to hold the currently selected Post ID
+- Pass in this state variable to the component where we want to load the post
+  
+Now, in the component we want to load the post, we need to make a new AJAX request to **get the post by ID.** This is done in the **componentDidUpdate()** lifecycle hook.
+
+To actually load the contents of the post, first we chain .then() and use setState. But in the code lower down, we must check if this value is actually **assigned** using an if block.
