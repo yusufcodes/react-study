@@ -1160,3 +1160,9 @@ Axios has an **interceptors** object which can be chained with 'request.use()' a
 ### Useful Links / Resources
 
 [Axios Docs](https://github.com/axios/axios)
+
+## Section 10: Burger Builder Project: Accessing a Server
+
+This section was completed in the **react-burgerbuilder** repo as it was just an addition to this project. No notes taken as it is applying the theory seen in Section 9.
+
+## Section 11: Multi-Page-Feeling in a Single-Page-App: Routing
