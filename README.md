@@ -1144,7 +1144,7 @@ The idea in this little section is to load the currently selected post informati
 - Pass in the received ID from the AJAX request to the click listener
 - Add a new state variable to hold the currently selected Post ID
 - Pass in this state variable to the component where we want to load the post
-  
+
 Now, in the component we want to load the post, we need to make a new AJAX request to **get the post by ID.** This is done in the **componentDidUpdate()** lifecycle hook.
 
 To actually load the contents of the post, first we chain .then() and use setState. But in the code lower down, we must check if this value is actually **assigned** using an if block.
@@ -1166,3 +1166,136 @@ Axios has an **interceptors** object which can be chained with 'request.use()' a
 This section was completed in the **react-burgerbuilder** repo as it was just an addition to this project. No notes taken as it is applying the theory seen in Section 9.
 
 ## Section 11: Multi-Page-Feeling in a Single-Page-App: Routing
+
+**To Do: Go over and add the installation and setup method here**
+
+### Setting Up and Rendering Routes
+
+The **Route** component is used to setup a route. We state our path in the _path_ attribute, and then the content we want to display is setup in an anonymous function in the _render_ attribute.
+
+```js
+import { Route } from "react-router-dom";
+
+// ...
+
+<Route path="/" exact render={() => <h1>Home</h1>} />;
+```
+
+### Rendering Components as Routes
+
+This is the more common use case for routing, where we want to display a **particular component**. This is shown below:
+
+```js
+<Route path="/" exact component={Posts} />
+```
+
+### Using Links to Switch Pages - prevent full reloading
+
+Currently the links (a tags) cause a complete refresh when changing to a new section of the site (via switching components). This section goes over handling this so only parts of the DOM a re-rendered.
+
+We achieve the desired behaviour using the **Link** component, which we can import from react-router.
+
+React uses this Link component to create its own anchor tag with href, except it will prevent a real reload of the page and handle the routing internally, on its own.
+
+```js
+// Example usage of Link component
+<li>
+  <Link to="/">Home</Link>
+</li>
+```
+
+The _to_ attribute also accepts an **object** for greater configuration of the route. This is demonstrated below followed by a couple extra attributes, _hash_ amd _search_, which add on to the parameters of the URL.
+
+```js
+<li>
+  <Link
+    to={{
+      pathname: "/new-post",
+      hash: "#submit",
+      search: "?quick-submit=true",
+    }}
+  >
+    New Post
+  </Link>
+</li>
+
+// output URL: http://localhost:3000/new-post?quick-submit=true#submit
+```
+
+### Using Routing-Related Props
+
+You can access react-router **props** in **componentDidMount** to get some more information on the routed component. You can access information such as query parameters.
+
+```js
+console.log(this.props);
+
+// Example Output:
+history: {length: 21, action: "PUSH", location: {…}, createHref: ƒ, push: ƒ, …}
+location: {pathname: "/", search: "", hash: "", state: undefined, key: "y73pgf"}
+match:
+isExact: true
+params: {}
+path: "/"
+url: "/"
+```
+
+### The "withRouter" HOC & Route Props
+
+As shown above, there are a few bits of info made available to us with a routed component. However, what if we want to access such information inside a different component, outside of our 'container' with all the routes? This section shows us how to do this.
+
+There are two ways this can be done:
+
+1. Passing the props down the chain
+
+```js
+<Component {...this.props}>
+```
+
+2. Using a HOC (Higher Order Component)
+
+This is done by importing the withRouter method and wrapping it inside the export of the component we want to use it on. This then gives access to the router information displayed above for the recently loaded route, making it 'route aware', should you need to do any sort of processing based on where you are in the app.
+
+```js
+import { withRouter } from "react-router-dom";
+
+console.log(props); // Display props
+// ... Code here
+
+export default withRouter(post);
+```
+
+### Absolute vs Relative Links
+
+Definitions:
+
+- **Absolute**: Always append the path right after the domain e.g. example.com/...
+- **Relative**: Appending a path based on the currently loaded path, e.g. if you are on /posts and want to create /posts/new.
+
+```js
+// Append to the current route you are on (relative)
+<Link to={{
+  pathname= this.props.match.url + '/new-post'
+}}>
+</Link>
+
+// Append to the route path (absolute)
+<Link to={{
+  pathname= '/new-post'
+}}>
+</Link>
+```
+
+### Styling the Active Route
+
+For this section we will use a new type of link, **NavLink**. It provides information to determine the active navigation link. react-router adds a new class with a value 'active' on the currently selected link - this can be used to create a style for that particular route.
+
+```js
+// exact stops multiple links with the / prefix from being shown as active.
+<li><NavLink to="/" exact>Home</NavLink></li>
+
+<li><NavLink to={{
+    pathname: '/new-post',
+    hash: '#submit',
+    search: '?quick-submit=true'
+}}>New Post</NavLink></li>
+```
