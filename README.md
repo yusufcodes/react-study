@@ -1299,3 +1299,43 @@ For this section we will use a new type of link, **NavLink**. It provides inform
     search: '?quick-submit=true'
 }}>New Post</NavLink></li>
 ```
+
+### Passing Route Parameters
+
+#### Set up the new route to accept a parameter
+
+You set this with a colon followed by the name of the parameter you want to use.
+
+```js
+<Route path="/:id" exact component={FullPost} />
+```
+
+#### Pass in the parameter to desired component
+
+We can now use the **Link** component to pass in the ID to our route, using the **to** attribute as shown below.
+
+```js
+<Link to={"/" + post.id} key={post.id}>
+  <Post
+    title={post.title}
+    author={post.author}
+    clicked={() => this.loadPostData(post.id)}
+  />
+</Link>
+```
+
+To finish this off, we need to **extract** the route parameter to finally display the desired post.
+
+### Extracting Route Parameters
+
+Routing adds a few different properties to the props of a component. One of these is called **match**, which contains a few other properites. To extract route parameters, the one we are interested in here is called **params**. In here, any parameters passed into a route which we defined in our Route Path is stored, so it can be accessed.
+
+In this project example, we access an **ID** to load an individual post when it is clicked. We do this in the **componentDidMount** lifecycle because at this point, we are ready to populate our fully loaded component.
+
+```js
+if (this.props.match.params.id) {
+  // Perform logic here using the passed in ID
+}
+```
+
+### Parsing Query Parameters & the Fragment
