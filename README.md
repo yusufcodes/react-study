@@ -1339,3 +1339,267 @@ if (this.props.match.params.id) {
 ```
 
 ### Parsing Query Parameters & the Fragment
+
+This section goes over extracting Query Parameters and Fragments.
+
+The following are terms to describe data at the end of a URL:
+
+- **Query Parameters**: ?something=somevalue
+- **Fragments**: #something
+
+#### Query Parameters
+
+They can be passed in through the **Link** component in two ways:
+
+```js
+// Method 1
+<Link to="/my-path?start=5">Go to Start</Link>
+
+// Method 2
+<Link
+    to={‌{
+        pathname: '/my-path',
+        search: '?start=5'
+    }}
+    >Go to Start</Link>
+```
+
+These can then be accessed via **props.location.search** - but this will extract it literally, giving something like _?start=5_.
+To extract it in a key-value pair format, the following code below can be executed:
+
+```js
+componentDidMount() {
+    const query = new URLSearchParams(this.props.location.search);
+    for (let param of query.entries()) {
+        console.log(param); // yields ['start', '5']
+    }
+}
+```
+
+The entries() method on the URLSearchParams object exposes each key-value pair from the parameters of a URL. This can be iterated over in a for loop.
+
+#### Query Parameters
+
+They can be passed in through the **Link** component in two ways:
+
+```js
+<Link to="/my-path#start-position">Go to Start</Link>
+
+<Link
+    to={‌{
+        pathname: '/my-path',
+        hash: 'start-position'
+    }}
+    >Go to Start</Link>
+```
+
+You can then use **props.location.hash** for extraction.
+
+### Using Switch to Load a Single Route
+
+The **Switch** component that can be imported from react-router-dom can be used to ensure that only one route is loaded at a time. This works by stopping any further processing once one matching route has been found.
+
+### Navigating Programmatically
+
+Usecase: Clicking on a component to load a new page, but needing to wait for some operations to finish before doing so.
+
+In this example we load some cards with some posts. From this we want to click on one to load the new page - we will use the **pathname** property on 'this.props.history' to achieve this.
+
+```js
+return (
+  <Post
+    title={post.title}
+    author={post.author}
+    clicked={() => this.loadPostData(post.id)}
+  />
+);
+
+// Click listener:
+loadPostData = (id) => {
+  this.props.history.push({ pathname: "/" + id });
+};
+```
+
+### Understanding Nested Routing
+
+Nested Routing is where routing is used in one component, and then within a loaded component, it is also used. In this example, we are loading a **Posts** component and then inside this component, we load a **FullPost** component based on a match to a specific post. This works as long as the parent **BrowserRouter** component wraps all of these components, in this case it does because it is currently wrapping the root of our application.
+
+#### Getting the current active URL - helps with dynamic routing
+
+'this.props.match.url' - the current URL we are on in the application. This prevents hardcoding of a particular area of the React app.
+
+### Creating Dynamic Nested Routes
+
+In a nested route, we must use the **componentDidUpdate** lifecycle method if we want to change any part of a component. React Router will not update a component where it isn't necessary. It is up to us to tell the application when we want to be updating it.
+
+### Redirecting Requests
+
+The **Redirect** component is used to redirect the user from one route to another. It **must** be used inside a **Switch** component if you want to state 'from' - it can be used outside of Switch however, if you are simply going from the current route to a different one.
+
+### Conditional Redirects
+
+A **conditional redirect** can be used to redirect the user upon some form of change. We can use some **state variable** like a boolean to determine this. Below is a quick code snippet of loading such a redirect - this is inside the **render** method, before the return statement:
+
+```js
+let redirect = null;
+if (this.state.submitted) {
+  redirect = <Redirect to="/posts" />;
+}
+```
+
+The 'redirect' component can then be loaded within the return statement
+
+### Using the History Prop to Redirect
+
+We can dynamically change the current page we are on using **this.props.history** via a couple methods:
+
+-.push(/route): This adds the next page to the page stack, so causes it to load once added
+-.replace(/route): Replaces the current page you are on with the new page, again causing it to load
+
+This is a 'cleaner' way to replicate the same behaviour as Redirect except we do not need to load this entire new component.
+
+### Working with Guards
+
+Guards are the term used where you want to protect a particular route from some users, for example, unauthenticated users. With React Router, the way to do this is to simply **conditionally render a route.** Below is a quick example of doing such thing:
+
+```js
+<Switch>
+  {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
+  <Route path="/posts" component={Posts} />
+  <Redirect from="/" to="/posts"></Redirect>
+</Switch>
+```
+
+What happens here is, if auth is false, the new post route isn't loaded. The router then moves to the next Route, which is /posts, and because it doesn't match this, it ends up at the generic redirect forcing the user back to the main /posts page - our 'home' page here.
+
+### Handling the 404 Case (Unknown Routes)
+
+Instead of using a Redirect, a 404 page / similar can be quickly generated. Put the below route at the bottom of your Router section and it will be the last thing to be ran, meaning none of the other routes matched it.
+
+```js
+<Route render={() => <h1>Not Found</h1>} />
+```
+
+### Loading Routes Lazily
+
+This section describes how each route has a specific component, however they are not always needed. Currently, they are all being 'loaded' into the app even when it isn't needed. This section covers how to optimize the app so we only load the components we need at the specific time.
+
+Downloading what you need is described as **code spliting** or **lazy loading**. This loading method is designed to work with create-react-app and Webpack associated with it.
+
+**Note: 3:35 where instructor starts showing concept - take notes here**
+
+First we create a new Higher Order Component, named asyncComponent. The aim of this is to load something **only when we need it**, which is done asynchronously.
+
+In this component, set up as a functional component, we write it so it accepts some other component that we use with it, and instantly return a **new component:**
+
+```js
+import React, { Component } from "react";
+
+// importComponent: Function reference which will return a Promise
+const asyncComponent = (importComponent) => {
+  return class extends Component {
+    state = {
+      // Holds the dynamically passed in component
+      component: null,
+    };
+
+    // Set up the component to be used asynchronously
+    componentDidMount() {
+      // Executing the function reference to our component to use, and saving it to our state
+      importComponent().then((component) => {
+        this.setState({ component: component.default });
+      });
+    }
+
+    render() {
+      // Render the new component based on whether it exists or not yet
+      const componentToLoad = this.state.component;
+      return componentToLoad ? <componentToLoad {...this.props} /> : null;
+    }
+  };
+};
+
+export default asyncComponent;
+```
+
+#### How to use this component now
+
+We navigate to the component where we are loading in the other component we want to load lazily, at the import section. In this case we are looking to do this for the **NewPost** component.
+
+Normally we use the import functionality to load our components into the app, this gets added to the global configuration of the app, meaning it is loaded in advance of being used. We want to change this to load the component **only when we need to.** This is achieved as demonstrated below:
+
+```js
+...
+// import NewPost from './NewPost/NewPost';
+
+const AsyncNewPost = asyncComponent(() => {
+  // The import() method only runs when executed. We will only execute AsyncNewPost when we need it, achieving our purpose.
+  return import('./NewPost/NewPost');
+});
+
+```
+
+With this method setup, we are creating a component asynchronously and fetching the component as and when we need it. Now all we need to do is use this method where we want to lazily load the component - **which is our 'new-post' route.**
+
+```js
+// OLD:
+<Route path="/new-post" component={NewPost} />
+
+// New:
+<Route path="/new-post" component={AsyncNewPost} />
+```
+
+This now lazily loads one of our components, which would be significant in a larger application with large components.
+
+### Lazy Loading with React Suspense (16.6)
+
+'Lazy' is a method on the React object. This can be used to load a component only when we need it. The way to use this is outlined below.
+(Note: I did not create a new project to code this, but rather kept code examples and explanations below for me to reference if I use this in the future)
+
+#### Using a dynamic import
+
+Let's take a basic import in our **App.js** file - we want to load this lazily:
+
+```js
+// import
+import Posts from './containers/Posts'
+
+// component being used
+<Route path="/posts" component={Posts}>
+```
+
+We change this into a dynamic import by creating a new variable, and calling the **lazy** method which exists on the React object.
+
+```js
+const Posts = React.lazy(() => import("./containers/Posts"));
+```
+
+**lazy** takes an **anonymous function**, which will only get executed when lazy is executed, and within this, we use the **import** method to tell it where our dynamic component exists.
+
+#### Loading our dynamic component in our route
+
+To use this dynamic component with our route, we must use the **render** prop and pass in the following structure:
+
+```js
+<Route path="/posts" component={Posts}>
+
+<Route
+  path="/posts"
+  render={
+    () => (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Posts />
+      </Suspense>
+    )}
+/>
+```
+
+The **Suspense** component needs to be imported and whenever we have a lazy component, we use this to load it where we want.
+
+### Routing and Server Deployment
+
+Things to keep in mind when hosting a React app on a server:
+
+1. Any 404 errors should map directly onto loading the index.html page, so React can take over as it handles routing
+2. Set a base path if your app doesn't live on the root of a domain e.g. example.com/my-app
+   _Note: Do this using the basename prop on the BrowserRouter_
