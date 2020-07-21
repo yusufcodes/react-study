@@ -14,6 +14,9 @@ This repo will contain the code and notes (below) for the Udemy course: [React -
 - [Section 6: Debugging React Apps](#section-6-debugging-react-apps)
 - [Section 7: Diving Deeper into Components & React Internals](#section-7-diving-deeper-into-components--react-internals)
 - [Section 8: A Real App: The Burger Builder (Basic Version)](#section-8-a-real-app-the-burger-builder-basic-version)
+- [Section 9: Reaching out to the Web (Http / Ajax)](#section-9-reaching-out-to-the-web-http--ajax)
+- [Section 10: Burger Builder Project: Accessing a Server](#section-10-burger-builder-project-accessing-a-server)
+- [Section 11: Multi-Page-Feeling in a Single-Page-App: Routing](#section-11-multi-page-feeling-in-a-single-page-app-routing)
 
 ## Section 3: Understanding the Base Features & Syntax
 
